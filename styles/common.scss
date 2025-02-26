@@ -1,0 +1,200 @@
+$black-night: #1A1A1A;
+$black-zet: #0A0A0A;
+
+$gray-coll: #adb5bd;
+$gray-light: #dee2e6;
+
+$primary-color: $black-zet;
+$interaction-color: $black-night;
+// $secondary-color: #FFC30B;
+
+$bg-header-color: $black-night;
+$bg-footer-color: $black-night;
+$bg-nav-color: $black-zet;
+
+$header-height: 67px;
+$footer-height: 28px;
+$nav-width: 220px;
+
+@font-face {
+  font-family: 'Noto Sans KR';
+  src: url('../assets/fonts/NotoSansKR-Regular.ttf') format('truetype'),
+       url('../assets/fonts/NotoSansKR-Medium.ttf') format('truetype'),
+       url('../assets/fonts/NotoSansKR-Bold.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Noto Serif KR';
+  src: url('../assets/fonts/NotoSerifKR-Regular.ttf') format('truetype'),
+       url('../assets/fonts/NotoSerifKR-Medium.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+html {
+  font-family: 'Noto Sans KR', sans-serif, 'Noto Serif KR';
+  font-size: 1.1rem;
+}
+
+body {
+  margin: 0 auto;
+}
+
+nav {
+  color: white;
+  min-width: $nav-width;
+  height: calc(100vh - $footer-height);
+  background-color: $black-zet;
+
+  .menu-label {
+    font-weight: bold;
+    font-size: 1.2rem;
+  }
+
+  .tab-button:hover {
+    opacity: 0.8;
+  }
+}
+
+.vh-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+a {
+  cursor: pointer;
+}
+
+header {
+  height: $header-height;
+  background-color: $bg-header-color;
+  color: white;
+
+  position: fixed;
+  // z-Index: 1;
+  top: 0;
+  // left: $nav-width;
+  width: calc(100% - $nav-width);
+  
+  .current-dir {    
+    font-size: 1.2rem;
+    display: block;
+
+    @media (max-width: 900px) {
+      display: none;
+    }
+  }
+}
+
+section {
+  height: calc(100% - $header-height - $footer-height);
+}
+
+main {
+  overflow: auto;
+  user-select: text;
+  width: calc(100% - $nav-width);
+  height: calc(100% - $header-height - $footer-height);
+  padding: 20px 40px 0px 40px;
+  background-color: $gray-light;
+  position: absolute;
+  top: $header-height;
+
+  
+  .title {
+    font-size: 1.8rem;
+  }
+}
+
+.main-box {
+  width: 100vw;
+  height: calc(100vh - $footer-height);
+}
+
+footer {
+  width: 100%;
+  height: $footer-height;
+  text-align: center;
+  background-color: $bg-footer-color;
+  color: white;
+  font-size: 0.6em;
+  
+
+  .footer-container {
+    display: grid;
+    place-items: center; /* 세로와 가로 중앙 정렬 */
+    height: 100%;
+  }
+}
+
+.base-card {
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.5);
+  padding: 20px;
+
+  .title {
+    font-size: 1.2rem;
+    font-weight: bold;
+    padding-bottom: 12px;
+    border-bottom: 1px $gray-light solid;
+    text-align: center;
+  }
+}
+
+.series-chart-card {
+  @extend .base-card;
+  min-width: 400px;
+  width: 100%;
+  height: 600px;
+
+  .title {
+    text-align: left;
+  }
+
+  .metric {
+
+    .met-title {
+      font-size: 1.1rem;
+      font-weight: bold;      
+      // text-align: center;
+    }
+
+    .met-value {
+      font-size: 2.1rem;
+      font-weight: bold;      
+      text-align: center;      
+    }
+  }
+
+  .chart {
+    width: 100%;
+    height: 100%;
+  }
+}
+
+.daterange-picker  {
+  height: 36px;
+  border-radius: 5px;
+}
+
+.datepicker {
+  width: 100px;
+  height: 22px;
+  font-size: 0.9rem;
+  border: 0px solid blue;
+  text-align: top;
+}
+
+.datepicker-btn {
+  width: 60px;
+  height: 100%;
+  font-size: 1.0rem;
+  // padding: 0px;
+  background-color: $primary-color;
+  color: white;
+  cursor: pointer;
+}

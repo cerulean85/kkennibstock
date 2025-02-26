@@ -1,0 +1,389 @@
+{
+	"apiUrl": "",
+	"deployment": false,
+
+
+	"dummy": {
+		"alarmList": [
+			{
+				"id": "1",
+				"code": "CODE1",
+				"date": "2023-01-01 12:12:24",
+				"manuals": [
+					{
+						"name": "조치매뉴얼1.pdf",
+						"url": "http://localhost:3000/samples/sample.pdf"
+					},
+					{
+						"name": "조치방법.jpg",
+						"url": "http://localhost:3000/samples/sample.pdf"
+					}
+				],
+				"action": "1) 화면을 킨다. <br/>2) 조치한다.",
+				"people": [
+					{
+						"name": "아무개",
+						"email": "abc@test.com",
+						"phone": "010-1111-2222"
+					},
+					{
+						"name": "아무개",
+						"email": "abc@test.com",
+						"phone": "010-1111-2222"
+					}
+				]
+			},
+			{
+				"id": "2",
+				"code": "CODE1",
+				"date": "2023-01-01 12:12:24",
+				"manuals": [
+					{
+						"name": "조치매뉴얼1.pdf",
+						"url": "http://localhost:3000/samples/sample.pdf"
+					},
+					{
+						"name": "조치방법.jpg",
+						"url": "http://localhost:3000/samples/sample.pdf"
+					}
+				],
+				"action": "1) 화면을 킨다. <br/>2) 조치한다.",
+				"people": [
+					{
+						"name": "아무개",
+						"email": "abc@test.com",
+						"phone": "010-1111-2222"
+					},
+					{
+						"name": "아무개",
+						"email": "abc@test.com",
+						"phone": "010-1111-2222"
+					}
+				]
+			},
+			{
+				"id": "3",
+				"code": "CODE1",
+				"date": "2023-01-01 12:12:24",
+				"manuals": [
+					{
+						"name": "조치매뉴얼1.pdf",
+						"url": "http://localhost:3000/samples/sample.pdf"
+					},
+					{
+						"name": "조치방법.jpg",
+						"url": "http://localhost:3000/samples/sample.pdf"
+					}
+				],
+				"action": "1) 화면을 킨다. <br/>2) 조치한다.",
+				"people": [
+					{
+						"name": "아무개",
+						"email": "abc@test.com",
+						"phone": "010-1111-2222"
+					},
+					{
+						"name": "아무개",
+						"email": "abc@test.com",
+						"phone": "010-1111-2222"
+					}
+				]
+			}
+		],
+		"notiList": [
+			{ 
+				"id": "1", 
+				"title": "입고 예정 물량이 있습니다.", 
+				"date": "2025-01-14 12:23:52" ,
+				"description": "설명입니다."
+			},
+			{ 
+				"id": "2", 
+				"title": "입고 예정 물량이 있습니다.", 
+				"date": "2025-01-14 12:23:52" ,
+				"description": "설명입니다."
+			},
+			{ 
+				"id": "3", 
+				"title": "입고 예정 물량이 있습니다.", 
+				"date": "2025-01-14 12:23:52" ,
+				"description": "설명입니다."
+			},
+			{ 
+				"id": "4", 
+				"title": "입고 예정 물량이 있습니다.", 
+				"date": "2025-01-14 12:23:52" ,
+				"description": "설명입니다."
+			}
+		],
+		"saveTrendList": [
+			{ "x": "2024.12.16. ~ 2024.12.20.", "y": 100 },
+			{ "x": "2024.12.23. ~ 2024.12.27.", "y": 90 },
+			{ "x": "2024.12.30. ~ 2025.01.03.", "y": 80 },
+			{ "x": "2025.01.06. ~ 2025.01.10.", "y": 70 },
+			{ "x": "2025.01.13. ~ 2025.01.17.", "y": 60 },
+			{ "x": "2025.01.20. ~ 2025.01.24.", "y": 50 },
+			{ "x": "2025.01.27. ~ 2025.01.31.", "y": 40 },
+			{ "x": "2025.02.03. ~ 2025.02.07.", "y": 30 },
+			{ "x": "2025.02.10. ~ 2025.02.14.", "y": 20 }			
+		],
+		"currentShipList": [						
+			{ "x": "2024.12.16. ~ 2024.12.20.", "y": 100 },
+			{ "x": "2024.12.23. ~ 2024.12.27.", "y": 90 },
+			{ "x": "2024.12.30. ~ 2025.01.03.", "y": 80 },
+			{ "x": "2025.01.06. ~ 2025.01.10.", "y": 70 },
+			{ "x": "2025.01.13. ~ 2025.01.17.", "y": 60 },
+			{ "x": "2025.01.20. ~ 2025.01.24.", "y": 50 },
+			{ "x": "2025.01.27. ~ 2025.01.31.", "y": 40 },
+			{ "x": "2025.02.03. ~ 2025.02.07.", "y": 30 },
+			{ "x": "2025.02.10. ~ 2025.02.14.", "y": 20 }
+		],
+		"importantItemList": [
+			{
+				"date": "12/31",
+				"items": [
+					{ "item": "10001NX", "count": 94 },
+					{ "item": "10002NX", "count": 80 },
+					{ "item": "10003NX", "count": 70 },
+					{ "item": "10004NX", "count": 60 },
+					{ "item": "10005NX", "count": 50 }
+				]
+			},
+			{
+				"date": "12/30",
+				"items": [
+					{ "item": "10001NX", "count": 94 },
+					{ "item": "10002NX", "count": 80 },
+					{ "item": "10003NX", "count": 70 },
+					{ "item": "10004NX", "count": 60 },
+					{ "item": "10005NX", "count": 50 }
+				]
+			},
+			{
+				"date": "12/29",
+				"items": [
+					{ "item": "10001NX", "count": 94 },
+					{ "item": "10002NX", "count": 80 },
+					{ "item": "10003NX", "count": 70 },
+					{ "item": "10004NX", "count": 60 },
+					{ "item": "10005NX", "count": 50 }
+				]
+			},
+			{
+				"date": "12/28",
+				"items": [
+					{ "item": "10001NX", "count": 94 },
+					{ "item": "10002NX", "count": 80 },
+					{ "item": "10003NX", "count": 70 },
+					{ "item": "10004NX", "count": 60 },
+					{ "item": "10005NX", "count": 50 }
+				]
+			},
+			{
+				"date": "12/27",
+				"items": [
+					{ "item": "10001NX", "count": 94 },
+					{ "item": "10002NX", "count": 80 },
+					{ "item": "10003NX", "count": 70 },
+					{ "item": "10004NX", "count": 60 },
+					{ "item": "10005NX", "count": 50 }
+				]
+			},
+			{
+				"date": "12/26",
+				"items": [
+					{ "item": "10001NX", "count": 94 },
+					{ "item": "10002NX", "count": 80 },
+					{ "item": "10003NX", "count": 70 },
+					{ "item": "10004NX", "count": 60 },
+					{ "item": "10005NX", "count": 50 }
+				]
+			},
+			{
+				"date": "12/25",
+				"items": [
+					{ "item": "10001NX", "count": 94 },
+					{ "item": "10002NX", "count": 80 },
+					{ "item": "10003NX", "count": 70 },
+					{ "item": "10004NX", "count": 60 },
+					{ "item": "10005NX", "count": 50 }
+				]
+			},
+			{
+				"date": "12/24",
+				"items": [
+					{ "item": "10001NX", "count": 94 },
+					{ "item": "10002NX", "count": 80 },
+					{ "item": "10003NX", "count": 70 },
+					{ "item": "10004NX", "count": 60 },
+					{ "item": "10005NX", "count": 50 }
+				]
+			},
+			{
+				"date": "12/23",
+				"items": [
+					{ "item": "10001NX", "count": 94 },
+					{ "item": "10002NX", "count": 80 },
+					{ "item": "10003NX", "count": 70 },
+					{ "item": "10004NX", "count": 60 },
+					{ "item": "10005NX", "count": 50 }
+				]
+			},
+			{
+				"date": "12/22",
+				"items": [
+					{ "item": "10001NX", "count": 94 },
+					{ "item": "10002NX", "count": 80 },
+					{ "item": "10003NX", "count": 70 },
+					{ "item": "10004NX", "count": 60 },
+					{ "item": "10005NX", "count": 50 }
+				]
+			},
+			{
+				"date": "12/21",
+				"items": [
+					{ "item": "10001NX", "count": 94 },
+					{ "item": "10002NX", "count": 80 },
+					{ "item": "10003NX", "count": 70 },
+					{ "item": "10004NX", "count": 60 },
+					{ "item": "10005NX", "count": 50 }
+				]
+			}
+		],
+		"equipmentSaveList": {
+			"StackerCrane": [
+				{ 
+					"id": 1, 
+					"type": "S/C #1", 
+					"maxCount": 100, 
+					"currentCount": 453,
+					"safetyCount": 100,
+					"items": ["A123", "A124", "A125"]
+				},
+				{ 
+					"id": 2, 
+					"type": "S/C #2", 
+					"maxCount": 453, 
+					"currentCount": 100,
+					"safetyCount": 100,
+					"items": ["A123", "A124", "A125"]
+				},
+				{ 
+					"id": 3, 
+					"type": "S/C #3", 
+					"maxCount": 453, 
+					"currentCount": 100,
+					"safetyCount": 100,
+					"items": ["A123", "A124", "A125"]
+				},
+				{ 
+					"id": 4, 
+					"type": "S/C #4", 
+					"maxCount": 453, 
+					"currentCount": 100,
+					"safetyCount": 100,
+					"items": ["A123", "A124", "A125"]
+				},
+				{ 
+					"id": 5, 
+					"type": "S/C #5", 
+					"maxCount": 453, 
+					"currentCount": 100,
+					"safetyCount": 100,
+					"items": ["A123", "A124", "A125"]
+				},
+				{ 
+					"id": 6, 
+					"type": "S/C #6", 
+					"maxCount": 453, 
+					"currentCount": 100,
+					"safetyCount": 100,
+					"items": ["A123", "A124", "A125"]
+				},
+				{ 
+					"id": 7, 
+					"type": "S/C #7", 
+					"maxCount": 453, 
+					"currentCount": 100,
+					"safetyCount": 100,
+					"items": ["A123", "A124", "A125"]
+				},
+				{ 
+					"id": 8, 
+					"type": "S/C #8", 
+					"maxCount": 453, 
+					"currentCount": 100,
+					"safetyCount": 100,
+					"items": ["A123", "A124", "A125"]
+				}	
+			],
+
+			"Gantry": [
+				{ 
+					"id": 1, 
+					"type": "Gantry #1", 
+					"maxCount": 100, 
+					"currentCount": 453,
+					"safetyCount": 100,
+					"items": ["A123", "A124", "A125"]
+				},
+				{ 
+					"id": 2, 
+					"type": "Gantry #2", 
+					"maxCount": 453, 
+					"currentCount": 100,
+					"safetyCount": 100,
+					"items": ["A123", "A124", "A125"]
+				},
+				{ 
+					"id": 3, 
+					"type": "Gantry #3", 
+					"maxCount": 453, 
+					"currentCount": 100,
+					"safetyCount": 100,
+					"items": ["A123", "A124", "A125"]
+				},
+				{ 
+					"id": 4, 
+					"type": "Gantry #4", 
+					"maxCount": 453, 
+					"currentCount": 100,
+					"safetyCount": 100,
+					"items": ["A123", "A124", "A125"]
+				},
+				{ 
+					"id": 5, 
+					"type": "Gantry #5", 
+					"maxCount": 453, 
+					"currentCount": 100,
+					"safetyCount": 100,
+					"items": ["A123", "A124", "A125"]
+				},
+				{ 
+					"id": 6, 
+					"type": "Gantry #6", 
+					"maxCount": 453, 
+					"currentCount": 100,
+					"safetyCount": 100,
+					"items": ["A123", "A124", "A125"]
+				},
+				{ 
+					"id": 7, 
+					"type": "Gantry #7", 
+					"maxCount": 453, 
+					"currentCount": 100,
+					"safetyCount": 100,
+					"items": ["A123", "A124", "A125"]
+				},
+				{ 
+					"id": 8, 
+					"type": "Gantry #8", 
+					"maxCount": 453, 
+					"currentCount": 100,
+					"safetyCount": 100,
+					"items": ["A123", "A124", "A125"]
+				}	
+			]
+		}
+	}
+}
