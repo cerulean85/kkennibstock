@@ -5,6 +5,18 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --black-night: #1A1A1A;
+  --black-zet: #0A0A0A;
+  --gray-coll: #adb5bd;
+  --gray-light: #dee2e6;
+  --primary-color: #0A0A0A;
+  --interaction-color: #1A1A1A;
+  --bg-header-color: #1A1A1A;
+  --bg-footer-color: #1A1A1A;
+  --bg-nav-color: #0A0A0A;
+  --header-height: 52px;
+  --footer-height: 28px;
+  --nav-width: 220px;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -12,10 +24,4 @@
     --background: #0a0a0a;
     --foreground: #ededed;
   }
-}
-
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
 }

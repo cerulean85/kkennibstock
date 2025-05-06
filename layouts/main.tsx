@@ -9,8 +9,8 @@ export default function CommonMain({ children }: { children: ReactNode }) {
 	const isSpreadMainMenu: boolean = useSelector((state: RootState) => state.appConfig.isSpreadMainMenu);
 
   return (
-		<main>
+
 			{children}
-		</main>
+
 	)
 }

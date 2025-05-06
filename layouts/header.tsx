@@ -1,31 +1,32 @@
 "use client"
-import { usePathname  } from 'next/navigation';
-import { useSelector, useDispatch } from 'react-redux';
-import { RootState, AppDispatch } from '@/stores/store';
+// import { usePathname  } from 'next/navigation';
+// import { useSelector, useDispatch } from 'react-redux';
+// import { RootState, AppDispatch } from '@/stores/store';
 
-import { 
-  setIsSpreadMainMenu
- } from '@/stores/appConfigSlice';
-import { 
-  getMenunameFromURL
- } from '@/lib/domain';
- import Image from "next/image";
+// import { 
+//   setIsSpreadMainMenu
+//  } from '@/stores/appConfigSlice';
+// import { 
+//   getMenunameFromURL
+//  } from '@/lib/domain';
+//  import Image from "next/image";
 
 const CommonHeader = () => {
-  const dispatch: AppDispatch = useDispatch();
+  // const dispatch: AppDispatch = useDispatch();
 
-  const pathname = usePathname();
-  const menuname = getMenunameFromURL(pathname);
-  const isSpreadMainMenu: boolean = useSelector((state: RootState) => state.appConfig.isSpreadMainMenu);
-
-  const spreadMenu = () => { dispatch(setIsSpreadMainMenu(true)); };
+  // const pathname = usePathname();
+  // const menuname = getMenunameFromURL(pathname);
 
   return (
     <header>
-      <div className="d-flex justify-content-between" >
+      <div className="w-full h-full flex justify-between items-center ms-3 pb-1">
+        <img width={130} src="/images/icon/logo_title.svg" />
+      </div>
+
+      {/* <div className="flex justify-between" >
         
-        <div className="d-flex current-dir">
-          <div className='d-flex align-items-center ms-3'>
+        <div className="flex current-dir">
+          <div className='flex items-center ms-3'>
             <strong>{menuname}</strong>
           </div>       
         </div>
@@ -37,7 +38,7 @@ const CommonHeader = () => {
             </a>
           </div>        
         </div>
-      </div>
+      </div> */}
     </header>
   )
 }
