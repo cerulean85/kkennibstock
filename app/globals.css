@@ -14,9 +14,12 @@
   --bg-header-color: #1A1A1A;
   --bg-footer-color: #1A1A1A;
   --bg-nav-color: #0A0A0A;
+  --bg-table-header-color: #1A1A1A;
+  --bg-table-border-color: #adb5bd;
   --header-height: 52px;
   --footer-height: 28px;
   --nav-width: 220px;
+  --text-color: #0A0A0A;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -24,4 +27,31 @@
     --background: #0a0a0a;
     --foreground: #ededed;
   }
+}
+
+body {
+  color: var(--text-color); 
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%; 
+}
+
+th {
+  background-color: var(--bg-table-header-color);
+  color: white;
+  text-align: center !important;
+  padding: 8px 0px 8px 0px;
+  
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+
+td {
+  text-align: center;
+  color: #333;
+  padding: 8px 0px 8px 0px;
+  background-color: white;
+  border-bottom: 1px solid var(--bg-table-border-color) !important;
 }

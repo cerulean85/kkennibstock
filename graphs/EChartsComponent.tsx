@@ -15,7 +15,8 @@ const EChartsComponent = ({ chartData, width = '100%', height = 400 } : { chartD
         fontSize: 20, 
         fontWeight: 'bold'
       },
-      color: '#0D6EFD'
+      color: '#0D6EFD',
+      backgroundColor: 'transparent'  // 배경을 투명하게 설정
     });
 
     setTimeout(() => {

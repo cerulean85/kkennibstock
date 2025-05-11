@@ -9,10 +9,11 @@ import { useRouter } from 'next/navigation';
 export default function AppLayout({ children }: { children: ReactNode; params: { locale: string } }) {
 
   const menuNames: any = {
+    "profit": "Profit",
     "metrics": "Metrics",      
-    "info": "INFO.",
-    "diary": "Diary",
-    "board": "Board"
+    // "info": "INFO.",
+    // "diary": "Diary",
+    // "board": "Board"
   };
 
   const router = useRouter();

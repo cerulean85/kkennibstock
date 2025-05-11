@@ -1,13 +1,50 @@
-import { reqGet } from "./req"
+import { reqGet, reqMetricsGet } from "./req"
 
 export class MetricsRepository {
+	private toppath: string = "metrics";
+	async getWonDollarRate() {
+		const pathname = "currency";
+		const response = await reqGet(`${this.toppath}/${pathname}`, pathname);
+		return response;
+	}		
 	async getVixData() {
-		const keyname = "vix";
-		const res = await reqGet(`----/${keyname}/`, keyname, true);
-		const list = res.data.map((obj: any) => {
-			const [key, value] = Object.entries(obj)[0];
-			return { x: key, y: value }
-		})
-		return list;
+		const pathname = "vix";
+		const response = await reqMetricsGet(`${pathname}`, pathname);
+		return response;
 	}
+	async getVxnData() {
+		const pathname = "vxn";
+		const response = await reqMetricsGet(`${pathname}`, pathname);
+		return response;
+	}
+	async getSp500Data() {
+		const pathname = "sp500";
+		const response = await reqMetricsGet(`${pathname}`, pathname);
+		return response;
+	}
+	async getNdxData() {
+		const pathname = "ndx";
+		const response = await reqMetricsGet(`${pathname}`, pathname);
+		return response;
+	}
+	async getUsdkrData() {
+		const pathname = "usdkr";
+		const response = await reqMetricsGet(`${pathname}`, pathname);
+		return response;
+	}
+	async getGoldData() {
+		const pathname = "gold";
+		const response = await reqMetricsGet(`${pathname}`, pathname);
+		return response;
+	}	
+	async getOilData() {
+		const pathname = "oil";
+		const response = await reqMetricsGet(`${pathname}`, pathname);
+		return response;
+	}
+	async getUs10yData() {
+		const pathname = "us10y";
+		const response = await reqMetricsGet(`${pathname}`, pathname);
+		return response;
+	}	
 }
