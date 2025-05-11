@@ -6,7 +6,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import "./globals.css";
 import { useRouter } from 'next/navigation';
 
-export default function AppLayout({ children }: { children: ReactNode; params: { locale: string } }) {
+export default function AppLayout({ children }: { children: ReactNode; }) {
 
   const menuNames: any = {
     "profit": "Profit",
