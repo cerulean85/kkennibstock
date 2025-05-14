@@ -1,5 +1,7 @@
 {
-	"domain": "http://localhost:3300",
+	"domain-local": "http://localhost:8080",
+	"domain-remote": "https://happ.kkennib.net",
+	"domain": "https://happ.kkennib.net",
 	"domainMetrics": "https://stockapi.kkennib.net",
 	"deployment": true,
 	

@@ -1,9 +1,7 @@
 'use client'
 import React, { useState, useRef, useEffect } from 'react';
-import { Button } from 'flowbite-react';
 import EChartsComponent from '@/graphs/EChartsComponent';
 import { MetricsService } from '@/services/MetricsService';
-import { cumulativeSum } from '@/lib/utils';
 
 const MetricsPage = () => {  
   const [ vixDataOption, setVixDataOption ] = useState<any>(null);

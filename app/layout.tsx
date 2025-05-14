@@ -10,7 +10,8 @@ export default function AppLayout({ children }: { children: ReactNode; }) {
 
   const menuNames: any = {
     "profit": "Profit",
-    "metrics": "Metrics",      
+    "metrics": "Metrics", 
+    "news": "News"     
     // "info": "INFO.",
     // "diary": "Diary",
     // "board": "Board"

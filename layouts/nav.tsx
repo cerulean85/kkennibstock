@@ -1,20 +1,12 @@
 "use client"
 import { useRouter  } from 'next/navigation';
-import { useSelector, useDispatch } from 'react-redux';
-import { RootState, AppDispatch } from '@/stores/store';
-import { 
-  setCurrentMenu, 
-  setIsSpreadMainMenu
-} from '@/stores/appConfigSlice'
-import { useEffect } from 'react';
-import Image from 'next/image'
+import { useDispatch } from 'react-redux';
+import { AppDispatch } from '@/stores/store';
+import { setCurrentMenu } from '@/stores/appConfigSlice'
 
 const CommonNav = () => {
 
   const dispatch: AppDispatch = useDispatch();  
-  
-
-
   const menuNames: any = {
     "stock_holdings": "Stock Holdings",      
   }

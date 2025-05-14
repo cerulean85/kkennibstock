@@ -7,7 +7,16 @@ const nextConfig: NextConfig = {
     ignoreDuringBuilds: true
   },
 
-  reactStrictMode: false
+  reactStrictMode: false,
+  async redirects() {
+    return [
+      {
+        source: '/',
+        destination: '/metrics',
+        permanent: true, // true: 301 리다이렉트, false: 302 리다이렉트
+      },
+    ];
+  }
 };
 
 export default withFlowbiteReact(nextConfig);
