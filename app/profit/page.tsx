@@ -5,6 +5,12 @@ import { ProfitService } from '@/services/ProfitService';
 import { createProfit, ProfitProp, updatePriceViewDataByCurrency } from '@/properties/Profit';
 import { updateStockListPriceByCurrency, StockProp } from '@/properties/Stock';
 import ToggleSwitch from '@/components/ToggleSwitch';
+import styled from 'styled-components';
+
+const TextInput = styled.input`
+  cursor: pointer;
+  text-align: center;
+`
 
 const Profit = () => {
   // const [profitOrigin, setProfitOrigin] = useState<ProfitProp>(createProfit());
@@ -16,13 +22,6 @@ const Profit = () => {
   const [monthlyProfitTrendChartOption, setMonthlyProfitTrendChartOption] = useState<any>({});
   const [myStockWeightChartDataOption, setMyStockWeightChartDataOption] = useState<any>({});
 
-  const fetchProfitData = async () => {
-    const serv = new ProfitService();                
-    const profitData: ProfitProp  = await serv.getProfitData(profitViewToDollar);    
-    setProfit(profitData);
-    
-  }  
-
   const fetchMyStockData = async () => {
     const serv = new ProfitService();                
     const myStockData: StockProp[]  = await serv.getMyStockData(myStockViewToDollar);    
@@ -30,8 +29,18 @@ const Profit = () => {
     myStockData.map((item: StockProp) => {
       const chartData = { name: item.name, value: item.weight }
       myStockWeightChartData.push(chartData);      
+      profit.purchaseAmount += item.purchaseAmount;
+      profit.purchaseAmount_Won += item.purchaseAmount_Won;
+      profit.marketValue += item.valuation;
+      profit.marketValue_Won += item.valuation_Won;
     })
-    setMyStockList(myStockData);
+    profit.gainPrice = profit.marketValue - profit.purchaseAmount;
+    profit.gainPrice_Won = profit.marketValue_Won - profit.purchaseAmount_Won;
+    profit.gainRate = (profit.gainPrice / profit.purchaseAmount) * 100;
+    setMyStockList(myStockData);    
+
+    updatePriceViewDataByCurrency(profit, true);
+    setProfit(profit);
 
     const _myStockWeightChartDataOption = {
       tooltip: {
@@ -40,7 +49,7 @@ const Profit = () => {
       },
       legend: {
         orient: 'horizontal', // 범례를 수평으로 설정
-        bottom: '20', // 범례를 아래로 배치
+        bottom: 20,
         left: 'center', // 범례를 중앙에 배치
         data: myStockWeightChartData.map(item => item.name)
       },
@@ -131,19 +140,16 @@ const Profit = () => {
     setMonthlyProfitTrendChartOption(trendChartData);
   }
 
-  
-
   useEffect(() => {
-    fetchProfitData();
     fetchMyStockData();
     fetchProfitTrendData();
     fetchMonthlyProfitTrendData();
   }, [])
 
-useEffect(() => {
-  const newProfit = updatePriceViewDataByCurrency({ ...profit }, profitViewToDollar);
-  setProfit(newProfit);  // 새로운 객체로 교체
-}, [profitViewToDollar])
+  useEffect(() => {
+    const newProfit = updatePriceViewDataByCurrency({ ...profit }, profitViewToDollar);
+    setProfit(newProfit);  // 새로운 객체로 교체
+  }, [profitViewToDollar])
 
   useEffect(() => {
 
@@ -154,11 +160,36 @@ useEffect(() => {
     const newStockList = updateStockListPriceByCurrency([ ...myStockList ], myStockViewToDollar);
     setMyStockList(newStockList);  // 새로운 객체로 교체
   }, [myStockViewToDollar])
+
+  const updateStockField = (index: number, field: keyof StockProp, value: any) => {
+    setMyStockList(prev =>
+      prev.map((item, i) =>
+        i === index ? { ...item, [field]: value } : item
+      )
+    );
+  };
+
+  const requestUpdateValue = (index: number, field: keyof StockProp, value: any) => {
+    console.log(`${index}: ${field} - ${value}`);
+  }
+
+  const handleStockInputKeyDown = (
+    e: React.KeyboardEvent<HTMLInputElement>,
+    index: number,
+    field: keyof StockProp
+  ) => {
+    if (e.key === 'Enter') {      
+      const newValue = (e.target as HTMLInputElement).value;
+      requestUpdateValue(index, field, newValue);      
+      (e.target as HTMLInputElement).blur();
+    }
+  };
+
   return (
     <div className='pb-3'>
       <div className='flex px-2 h-auto bg-[var(--main-bg-color)]'>
         <div className='mt-2' style={{width: '100%', height: '100%' }}>          
-          <div className='series-chart-card mt-3 w-full h-[190px]'>
+          <div className='series-chart-card mt-3 w-full'>
             <div className='title flex justify-between'>
               <label>평가손익</label>
               <div className='flex items-center'>
@@ -170,22 +201,22 @@ useEffect(() => {
               </div>
             </div>
 
-            <div className='flex justify-between px-20 mt-4 text-center'>
-              <div className='metric'>
-                <div className='met-title'>매입금액({profitViewToDollar ? '$' : '원'})</div>
-                <div className='met-value'>{profit.purchaseAmountViewData.toLocaleString()}</div>
+            <div className="flex flex-col sm:flex-row justify-between px-6 sm:px-20 mt-4 text-center gap-2">
+              <div className="metric">
+                <div className="met-title">매입금액({profitViewToDollar ? '$' : '원'})</div>
+                <div className="met-value">{profit.purchaseAmountViewData.toLocaleString()}</div>
               </div>
-              <div className='metric ms-3'>
-                <div className='met-title'>평가금액({profitViewToDollar ? '$' : '원'})</div>
-                <div className='met-value'>{profit.marketValueViewData.toLocaleString()}</div>
+              <div className="metric sm:ml-3">
+                <div className="met-title">평가금액({profitViewToDollar ? '$' : '원'})</div>
+                <div className="met-value">{profit.marketValueViewData.toLocaleString()}</div>
               </div>
-              <div className='metric ms-3'>
-                <div className='met-title'>손익({profitViewToDollar ? '$' : '원'})</div>
-                <div className='met-value'>{profit.gainPriceViewData.toLocaleString()}</div>
+              <div className="metric sm:ml-3">
+                <div className="met-title">손익({profitViewToDollar ? '$' : '원'})</div>
+                <div className="met-value">{profit.gainPriceViewData.toLocaleString()}</div>
               </div>
-                <div className='metric ms-3'>
-                <div className='met-title'>손익(%)</div>
-                <div className='met-value'>{profit.gainRate.toFixed(2)}</div>
+              <div className="metric sm:ml-3">
+                <div className="met-title">손익(%)</div>
+                <div className="met-value">{profit.gainRate.toFixed(2)}</div>
               </div>
             </div>
           </div>
@@ -207,9 +238,9 @@ useEffect(() => {
               </div>
             </div>
 
-            <div className='overflow-auto min-h-[400px] max-h-[600px] px-3 mt-4'>
-              <div className="flex w-full">
-                <div className='w-[30%] min-h-[400px]'>
+            <div className='overflow-auto h-auto px-3 mt-4'>
+              <div className="w-full">
+                <div className='w-[100%] h-[400px] pt-4 pb-2'>
                 { 
                   myStockWeightChartDataOption && 
                   <EChartsComponent 
@@ -217,66 +248,110 @@ useEffect(() => {
                     chartData={myStockWeightChartDataOption} />
                 }
                 </div>
-                <table className="w-[70%] text-sm text-left">
+                <table className="text-sm text-left">
                   <thead>
                     <tr>
                       <th>종목명</th>
-                      <th>티커</th>
-                      <th>수량</th>
+                      <th>티커</th>                      
                       <th>매입금액({myStockViewToDollar ? '$' : '원'})</th>
                       <th>평가금액({myStockViewToDollar ? '$' : '원'})</th>
+                      <th>수량</th>
                       <th>비중(%)</th>
                     </tr>
                   </thead>
                   <tbody>
-                    {myStockList.map((d: any, i: any) => (
+                    {myStockList.map((d: any, i: number) => (
                         <tr key={i}>
-                          <td>{d.name}</td>
-                          <td>{d.ticker}</td>
-                          <td>{d.quantity.toLocaleString()}</td>
-                          <td>{d.purchaseAmountViewData.toLocaleString()}</td>
-                          <td>{d.valuationViewData.toLocaleString()}</td>
-                          <td>{d.weight.toLocaleString()}</td>
+                          <td>
+                            <TextInput
+                              type="text"
+                              value={d.name}
+                              onChange={e => updateStockField(i, 'name', e.target.value)}
+                              onKeyDown={e => handleStockInputKeyDown(e, i, 'name')}
+                            />
+                          </td>
+                          <td>
+                            <TextInput
+                              type="text"
+                              value={d.ticker}
+                              onChange={e => updateStockField(i, 'ticker', e.target.value)}
+                              onKeyDown={e => handleStockInputKeyDown(e, i, 'ticker')}
+                            />
+                          </td>
+                          <td>
+                            <TextInput
+                              type="text"
+                              value={Number(d.purchaseAmountViewData).toLocaleString()}
+                              onChange={e => updateStockField(i, 'purchaseAmountViewData', Number(e.target.value))}
+                              onKeyDown={e => handleStockInputKeyDown(e, i, 'purchaseAmountViewData')}
+                            />
+                          </td>
+                          <td>
+                            <TextInput
+                              type="text"
+                              value={Number(d.valuationViewData).toLocaleString()}
+                              onChange={e => updateStockField(i, 'valuationViewData', Number(e.target.value))}
+                              onKeyDown={e => handleStockInputKeyDown(e, i, 'valuationViewData')}
+                            />
+                          </td>
+                          <td>
+                            <TextInput
+                              type="text"
+                              value={Number(d.quantity).toLocaleString()}
+                              onChange={e => updateStockField(i, 'quantity', Number(e.target.value))}
+                              onKeyDown={e => handleStockInputKeyDown(e, i, 'quantity')}
+                            />
+                          </td>                          
+                          <td>
+                            <TextInput
+                              type="number"
+                              value={d.weight}
+                              onChange={e => updateStockField(i, 'weight', Number(e.target.value))}
+                              onKeyDown={e => handleStockInputKeyDown(e, i, 'weight')}
+                            />
+                          </td>
                         </tr>
                     ))}
                   </tbody>
                 </table>
               </div>              
+            </div>            
+          </div>
+
+          <div className="flex flex-col sm:flex-row w-full px-2 h-[600px] sm:h-[400px] mt-4">
+            <div className="series-chart-card w-full sm:w-1/2 h-full sm:me-2 mb-4 sm:mb-0">
+              <div className="title flex justify-between">
+                <label>수익률 변화(%)</label>
+              </div>
+              <div className="flex w-full h-full">
+                {profitTrendChartOption && (
+                  <EChartsComponent
+                    width={'100%'}
+                    height={'90%'}
+                    chartData={profitTrendChartOption}
+                  />
+                )}
+              </div>
+            </div>
+            <div className="series-chart-card w-full sm:w-1/2 h-full sm:ms-2">
+              <div className="title flex justify-between">
+                <label>월간 수익(원화)</label>
+              </div>
+              <div className="flex w-full h-full">
+                {monthlyProfitTrendChartOption && (
+                  <EChartsComponent
+                    width={'100%'}
+                    height={'90%'}
+                    chartData={monthlyProfitTrendChartOption}
+                  />
+                )}
+              </div>
             </div>
           </div>
         </div>        
       </div>
 
-      <div className='flex w-full px-2 h-[400px] mt-4'>
-        <div className='series-chart-card w-1/2 h-full me-2'>
-          <div className='title flex justify-between'>
-            <label>수익률 변화(%)</label>
-          </div>
-
-            <div className="flex w-full h-full">
-            { 
-              profitTrendChartOption && 
-              <EChartsComponent 
-                width={'100%'} height={'90%'} 
-                chartData={profitTrendChartOption} />
-            }
-          </div>
-        </div>
-        <div className='series-chart-card w-1/2 h-full ms-2'>
-          <div className='title flex justify-between'>
-            <label>월간 수익(원화)</label>
-          </div>
-
-            <div className="flex w-full h-full">
-            { 
-              monthlyProfitTrendChartOption && 
-              <EChartsComponent 
-                width={'100%'} height={'90%'} 
-                chartData={monthlyProfitTrendChartOption} />
-            }
-          </div>
-        </div>
-      </div>
+      
     </div>
 
     

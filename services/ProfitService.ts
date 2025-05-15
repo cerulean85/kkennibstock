@@ -11,15 +11,15 @@ export class ProfitService extends BaseService {
 		this.repo = new ProfitRepository();
 	}
 
-	async getProfitData(toDollar: boolean) {
-		const response = await this.repo.getProfitData();
-		const result: ProfitProp = this.getData(response);
-		if (result) {
-			updatePriceViewDataByCurrency(result, toDollar);
-			return result;
-		}
-		return createProfit();
-	}
+	// async getProfitData(toDollar: boolean) {
+	// 	const response = await this.repo.getProfitData();
+	// 	const result: ProfitProp = this.getData(response);
+	// 	if (result) {
+	// 		updatePriceViewDataByCurrency(result, toDollar);
+	// 		return result;
+	// 	}
+	// 	return createProfit();
+	// }
 
 	async getMyStockData(toDollar: boolean) {
 		const response = await this.repo.getMyStockData();

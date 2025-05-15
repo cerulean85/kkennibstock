@@ -342,56 +342,58 @@ const MetricsPage = () => {
   return (
     <div>
       <div className="flex flex-col md:flex-row">
-        <div className="w-full md:w-1/2 h-[400px] p-3">
-          <div className="w-full h-full flex items-center bg-white rounded-lg shadow-lg">
-            <div className="w-[70%] h-[90%]">
+        <div className="w-full md:w-1/2 p-3">
+          <div className="series-chart-card w-full h-full items-center bg-white rounded-lg shadow-lg">
+            <div className="title w-full h-[40px] flex justify-between items-center border-b border-b-[var(--black-night)]">
+              <strong>VIX</strong>
+              <div className='flex items-center font-normal text-sm'>
+                Today&nbsp;
+                <div className='text-gray-800 font-bold text-lg'>{lastVixValue}</div>
+              </div>                
+            </div>            
+            <div className="w-full h-[280px] pt-2">
               <EChartsComponent chartData={vixDataOption} width={'100%'} height={'100%'} />
             </div>
-            <div className="w-[30%] h-[100%] p-3">
-              <div className="w-full h-[40px] flex justify-between items-center border-b border-b-[var(--black-night)]">
-                <strong>VIX</strong>
-                <div className='flex items-center font-normal text-sm'>
-                  Today&nbsp;
-                  <div className='text-gray-800 font-bold text-lg'>{lastVixValue}</div>
-                </div>                
-              </div>
-              <div className="w-full h-[calc(100%-60px)] whitespace-pre-wrap break-words overflow-x-auto mt-2.5">
-                <ul>
-                  <li>* S&P500 지수 옵션의 변동성을 기반으로 만든 공포 지수</li>
-                  <li>* 향후 30일간의 S&P500의 변동성에 대한 예상을 수치화</li>
-                  <li>* CBOE에서 계산 및 발표, 투자자 심리를 파악하는 데 많이 사용됨</li>
-                  <li>* <strong>0~15</strong>	안정/낙관, 위험 선호</li>
-                  <li>* <strong>15~20</strong> 보통 수준의 변동성</li>
-                  <li>* <strong>20~30</strong> 다소 불안정</li>
-                  <li>* <strong>30~40</strong> 고변동성/불안확대</li>
-                  <li>* <strong>40이상</strong>	공포극심</li>
+            <div className="w-full min-w-[180px] h-auto top-3 overflow-auto break-words">
+
+              <div className="w-full h-[calc(100%-60px)] whitespace-pre-wrap break-words overflow-x-auto">
+                <ul className="list-disc list-inside text-sm">
+                  <li>S&P500 지수 옵션의 변동성을 기반으로 만든 공포 지수</li>
+                  <li>향후 30일간의 S&P500의 변동성에 대한 예상을 수치화</li>
+                  <li>CBOE에서 계산 및 발표, 투자자 심리를 파악하는 데 많이 사용됨</li>
+                  <li><strong>0~15</strong>	안정/낙관, 위험 선호</li>
+                  <li><strong>15~20</strong> 보통 수준의 변동성</li>
+                  <li><strong>20~30</strong> 다소 불안정</li>
+                  <li><strong>30~40</strong> 고변동성/불안확대</li>
+                  <li><strong>40이상</strong>	공포극심</li>
                 </ul>
               </div>
             </div>
           </div>
         </div>
-        <div className="w-full md:w-1/2 h-[400px] p-3">
-          <div className="w-full h-full flex items-center bg-white rounded-lg shadow-lg">
-            <div className="w-[70%] h-[90%]">
+        <div className="w-full md:w-1/2 p-3">
+          <div className="series-chart-card w-full h-full items-center bg-white rounded-lg shadow-lg">
+            <div className="title w-full h-[40px] flex justify-between items-center border-b border-b-[var(--black-night)]">
+              <strong>VXN</strong>
+              <div className='flex items-center font-normal text-sm'>
+                Today&nbsp;
+                <div className='text-gray-800 font-bold text-lg'>{lastVxnValue}</div>
+              </div>
+            </div>
+            <div className="w-full h-[280px] pt-2">
               <EChartsComponent chartData={vxnDataOption} width={'100%'} height={'100%'} />
             </div>
-            <div className="w-[30%] h-[100%] p-3">
-              <div className="w-full h-[40px] flex justify-between items-center border-b border-b-[var(--black-night)]">
-                <strong>VXN</strong>
-                <div className='flex items-center font-normal text-sm'>
-                  Today&nbsp;
-                  <div className='text-gray-800 font-bold text-lg'>{lastVxnValue}</div>
-                </div>
-              </div>
-              <div className="w-full h-[calc(100%-60px)] whitespace-pre-wrap break-words overflow-x-auto mt-2.5">
-                <ul>              
-                  <li>* NASDAQ-100 지수 옵션의 변동성을 반영한 지수</li>
-                  <li>* NASDAQ-100에 대한 투자자들의 불안 심리와 기대 변동성 측정</li>
-                  <li>* CBOE에서 계산/발표, 투자자 심리를 파악하는 데 많이 사용됨</li>
-                  <li>* <strong>0~15</strong>	안정/기술주 낙관</li>
-                  <li>* <strong>15~25</strong> 보통 수준의 변동성</li>
-                  <li>* <strong>25~35</strong> 기술주 조정 우려</li>
-                  <li>* <strong>35이상</strong>	공포극심/매도세심화</li>
+            <div className="w-full min-w-[180px] h-auto top-3 overflow-auto break-words">
+              
+              <div className="w-full h-[calc(100%-60px)] whitespace-pre-wrap break-words overflow-x-auto">
+                <ul className="list-disc list-inside text-sm">          
+                  <li>NASDAQ-100 지수 옵션의 변동성을 반영한 지수</li>
+                  <li>NASDAQ-100에 대한 투자자들의 불안 심리와 기대 변동성 측정</li>
+                  <li>CBOE에서 계산/발표, 투자자 심리를 파악하는 데 많이 사용됨</li>
+                  <li><strong>0~15</strong>	안정/기술주 낙관</li>
+                  <li><strong>15~25</strong> 보통 수준의 변동성</li>
+                  <li><strong>25~35</strong> 기술주 조정 우려</li>
+                  <li><strong>35이상</strong>	공포극심/매도세심화</li>
                 </ul>
               </div>
             </div>

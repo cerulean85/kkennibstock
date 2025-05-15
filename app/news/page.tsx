@@ -16,6 +16,7 @@ const News = () => {
   const fetchFeedList = async (mediaName: string) => {
     const serv = new NewsService();
     const result = await serv.getRssFeedList(mediaName);
+    result.sort((a: any, b: any) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime());
     setFeedList(result);
   }
 
@@ -43,38 +44,26 @@ const News = () => {
       </div>
 
       <div className='p-2 overflow-y-auto'>
-        {
-          feedList &&
-          feedList.map((v: any, i: number) => (
-            <div key={i} className="p-3 mb-3 bg-gray-200">
-              <div className="flex">
-                <a className="font-bold"
-                   href={v.link} 
-                   target="_blank">
-                  {v.title}
-                </a>
-                <div className="ms-2">{formatDate(v.updatedAt)}</div>
-              </div>
-              
+      {
+        feedList &&
+        feedList.map((v: any, i: number) => (
+          <div key={i} className="p-3 mb-3 bg-gray-200">
+            <div className="flex">
+              <a className="font-bold"
+                  href={v.link} 
+                  target="_blank">
+                {v.title}
+              </a>
+              <div className="ms-2">{formatDate(v.updatedAt)}</div>
             </div>
-          ))
-        }
-                {
-          feedList &&
-          feedList.map((v: any, i: number) => (
-            <div key={i} className="p-3 mb-3 bg-gray-200">
-              <div className="flex">
-                <a className="font-bold"
-                   href={v.link} 
-                   target="_blank">
-                  {v.title}
-                </a>
-                <div className="ms-2">{formatDate(v.updatedAt)}</div>
-              </div>
-              
-            </div>
-          ))
-        }
+            
+          </div>
+        ))
+      }
+      {
+        feedList && feedList.length == 0 &&
+        <div>데이터가 없습니다.</div>
+      }
       </div>
     </div>
 
