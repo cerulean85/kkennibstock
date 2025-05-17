@@ -149,7 +149,7 @@ const Profit = () => {
       },
       legend: {
         orient: 'horizontal', // 범례를 수평으로 설정
-        bottom: 30,
+        bottom: 20,
         left: 'center', // 범례를 중앙에 배치
         data: stockHoldingWeightChartData.map(item => item.name)
       },
@@ -158,7 +158,7 @@ const Profit = () => {
           // name: '시장 점유율',
           type: 'pie',
           radius: '70%',
-          center: ['50%', '30%'],
+          center: ['50%', '35%'],
           data: stockHoldingWeightChartData,
           emphasis: {
             itemStyle: {
@@ -182,7 +182,7 @@ const Profit = () => {
     let trendChartData = {
       backgroundColor: 'transparent',
       tooltip: { trigger: 'axis' },
-      grid: { top: '10%', bottom: '15%' },
+      grid: { top: '20px', bottom: '15%' },
       // legend: { data: ['수익률'], right: '5%', top: '4%' },
       xAxis: { type: 'category', data: xAxis, },
       yAxis: [
@@ -216,7 +216,7 @@ const Profit = () => {
     let trendChartData = {
       backgroundColor: 'transparent',
       tooltip: { trigger: 'axis' },
-      grid: { top: '20px', bottom: '15%' },
+      grid: { top: '20px', bottom: '12%', left: '15%' },
       // legend: { data: ['수익률'], right: '5%', top: '4%' },
       xAxis: { type: 'category', data: xAxis, },
       yAxis: [
@@ -234,8 +234,9 @@ const Profit = () => {
           data: yAxis,
           emphasis: { focus: 'series' },
           itemStyle: { color: '#FB122F' },
-          yAxisIndex: 0
+          yAxisIndex: 0,
         }
+        
       ],
     };
     setMonthlyProfitTrendChartOption(trendChartData);
