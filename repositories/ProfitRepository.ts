@@ -1,4 +1,4 @@
-import { reqGet } from "./req"
+import { reqGet, reqHappGet, reqMetricsGet, reqMetricsPost, reqHappPost } from "./req"
 
 export class ProfitRepository {
 	private toppath: string = "stocks";
@@ -8,9 +8,15 @@ export class ProfitRepository {
 		return response;
 	}
 
-	async getMyStockData() {
-		const pathname = "my-stock";
-		const response = await reqGet(`${this.toppath}/${pathname}`, pathname);
+	async getStockHoldingData() {
+		const pathname = "stock-holding";
+		const response = await reqHappGet(`${pathname}/all`, `${pathname}/all`);
+		return response;
+	}
+
+	async getValudationData(tickers: any) {
+		const pathname = "latest-prices";
+		const response = await reqMetricsPost(`${pathname}`, tickers, `${pathname}`);
 		return response;
 	}
 

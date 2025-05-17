@@ -3,6 +3,7 @@ import repoData from "./repo.json";
 interface Repo {
   domain: string;
   domainMetrics: string;
+  domainHapp: string;
   deployment?: boolean;
   dummy?: Record<string, any>;
 }
@@ -16,6 +17,11 @@ export async function reqGet(pathAndQuery: string, dummyName: string = "") {
 
 export async function reqMetricsGet(pathAndQuery: string, dummyName: string = "") {
   const result = await _reqGet(pathAndQuery, dummyName, repo.domainMetrics);
+  return result;
+}
+
+export async function reqHappGet(pathAndQuery: string, dummyName: string = "") {
+  const result = await _reqGet(pathAndQuery, dummyName, repo.domainHapp);
   return result;
 }
 
@@ -56,7 +62,23 @@ async function _reqGet(pathAndQuery: string, dummyName: string = "", domain: str
   return null;
 }
 
-export async function reqPost(
+export async function reqPost(path: string, data: any = {}, dummyName: string = "") {
+  const result = await _reqPost(repo.domain, path, data, dummyName);
+  return result;
+}
+
+export async function reqMetricsPost(path: string, data: any = {}, dummyName: string = "") {
+  const result = await _reqPost(repo.domainMetrics, path, data, dummyName);
+  return result;
+}
+
+export async function reqHappPost(path: string, data: any = {}, dummyName: string = "") {
+  const result = await _reqPost(repo.domainHapp, path, data, dummyName);
+  return result;
+}
+
+export async function _reqPost(
+  domain: string,
   path: string,
   data: any = {},
   dummyName: string = "",  
@@ -66,7 +88,7 @@ export async function reqPost(
 
   if (shouldUseRealAPI) {
     try {
-      const url = `${repo.domain}/${path}`;
+      const url = `${domain}/${path}`;
       const response = await fetch(url, {
         method: "POST",
         headers: {

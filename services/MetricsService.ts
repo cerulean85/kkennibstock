@@ -14,6 +14,12 @@ export class MetricsService extends BaseService{
 		if (result) return result;
 		return 0;
 	}
+	async getMetricsData(tickersPeriods: any) {
+		const response = await this.repo.getMetricsData(tickersPeriods);
+		const result = this.getData(response);
+		if (!result) return [];
+		return result;
+	}
 	async getVixData() {
 		const response = await this.repo.getVixData();
 		const result = this.getData(response);

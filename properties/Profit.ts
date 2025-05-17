@@ -1,11 +1,11 @@
 export interface ProfitProp {
-	purchaseAmount: number;
-	purchaseAmount_Won: number;
-	purchaseAmountViewData: number;
+	sumPurchasePrice: number;
+	sumPurchasePrice_Won: number;
+	sumPurchasePriceViewData: number;
 	
-	marketValue: number;	
-	marketValue_Won: number;
-	marketValueViewData: number;	
+	sumValuationPrice: number;	
+	sumValuationPrice_Won: number;
+	sumValuationPriceViewData: number;	
 
 	gainPrice: number;
 	gainPrice_Won: number;
@@ -21,12 +21,12 @@ export interface ProfitTrendProp {
 
 export const updatePriceViewDataByCurrency = (profit: ProfitProp, toDollar: boolean) => {
 	if (toDollar === true) {
-		profit.purchaseAmountViewData = profit.purchaseAmount;
-		profit.marketValueViewData = profit.marketValue;
+		profit.sumPurchasePriceViewData = profit.sumPurchasePrice;
+		profit.sumValuationPriceViewData = profit.sumValuationPrice;
 		profit.gainPriceViewData = profit.gainPrice;
 	} else {
-		profit.purchaseAmountViewData = profit.purchaseAmount_Won;
-		profit.marketValueViewData = profit.marketValue_Won;
+		profit.sumPurchasePriceViewData = profit.sumPurchasePrice_Won;
+		profit.sumValuationPriceViewData = profit.sumValuationPrice_Won;
 		profit.gainPriceViewData = profit.gainPrice_Won;
 	}
 	return profit;
@@ -34,13 +34,13 @@ export const updatePriceViewDataByCurrency = (profit: ProfitProp, toDollar: bool
 
 export const createProfit = () => {
 	return { 
-		purchaseAmount: 0,
-		purchaseAmount_Won: 0,
-		purchaseAmountViewData: 0,
+		sumPurchasePrice: 0,
+		sumPurchasePrice_Won: 0,
+		sumPurchasePriceViewData: 0,
 		
-		marketValue: 0,
-		marketValue_Won: 0,
-		marketValueViewData: 0,
+		sumValuationPrice: 0,
+		sumValuationPrice_Won: 0,
+		sumValuationPriceViewData: 0,
 
 		gainPrice: 0,
 		gainPrice_Won: 0,

@@ -6,41 +6,141 @@ import { createProfit, ProfitProp, updatePriceViewDataByCurrency } from '@/prope
 import { updateStockListPriceByCurrency, StockProp } from '@/properties/Stock';
 import ToggleSwitch from '@/components/ToggleSwitch';
 import styled from 'styled-components';
+import { setPriority } from 'os';
 
 const TextInput = styled.input`
   cursor: pointer;
   text-align: center;
 `
 
+// 금액 표시용 컴포넌트
+const CurrencyValue = ({
+  value,
+  isDollar,
+}: {
+  value: number;
+  isDollar: boolean;
+}) => (
+  <span>
+    {isDollar
+      ? value.toLocaleString()
+      : Math.floor(value).toLocaleString()}
+  </span>
+);
+
+const MoneyInput = ({
+  value,
+  isDollar,
+  onChange,
+  onKeyDown,
+}: {
+  value: number;
+  isDollar: boolean;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onKeyDown: (e: React.KeyboardEvent<HTMLInputElement>) => void;
+}) => {
+  // 표시용 문자열
+  const displayValue = isDollar
+    ? Number(value).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+    : Math.floor(Number(value)).toLocaleString();
+
+  return (
+    <TextInput
+      type="text"
+      value={displayValue}
+      onChange={e => {
+        // 입력값에서 콤마 제거 후 숫자 변환
+        const raw = e.target.value.replace(/,/g, '');
+        const v = isDollar
+          ? Number(raw)
+          : Math.floor(Number(raw));
+        onChange({
+          ...e,
+          target: { ...e.target, value: v.toString() }
+        } as React.ChangeEvent<HTMLInputElement>);
+      }}
+      onKeyDown={onKeyDown}
+    />
+  );
+};
+
 const Profit = () => {
-  // const [profitOrigin, setProfitOrigin] = useState<ProfitProp>(createProfit());
   const [profit, setProfit] = useState<ProfitProp>(createProfit());
   const [profitViewToDollar, setProfitViewToDollar] = useState(true);
-  const [myStockList, setMyStockList] = useState<StockProp[]>([]);
-  const [myStockViewToDollar, setMyStockViewToDollar] = useState(true);
+  const [stockHoldingList, setStockHoldingList] = useState<StockProp[]|null>(null);
+  const [stockPriceViewToDollar, setMyStockViewToDollar] = useState(true);
   const [profitTrendChartOption, setProfitTrendChartOption] = useState<any>({});
   const [monthlyProfitTrendChartOption, setMonthlyProfitTrendChartOption] = useState<any>({});
   const [myStockWeightChartDataOption, setMyStockWeightChartDataOption] = useState<any>({});
 
-  const fetchMyStockData = async () => {
-    const serv = new ProfitService();                
-    const myStockData: StockProp[]  = await serv.getMyStockData(myStockViewToDollar);    
-    const myStockWeightChartData: any[] = [];
-    myStockData.map((item: StockProp) => {
-      const chartData = { name: item.name, value: item.weight }
-      myStockWeightChartData.push(chartData);      
-      profit.purchaseAmount += item.purchaseAmount;
-      profit.purchaseAmount_Won += item.purchaseAmount_Won;
-      profit.marketValue += item.valuation;
-      profit.marketValue_Won += item.valuation_Won;
-    })
-    profit.gainPrice = profit.marketValue - profit.purchaseAmount;
-    profit.gainPrice_Won = profit.marketValue_Won - profit.purchaseAmount_Won;
-    profit.gainRate = (profit.gainPrice / profit.purchaseAmount) * 100;
-    setMyStockList(myStockData);    
 
-    updatePriceViewDataByCurrency(profit, true);
-    setProfit(profit);
+  const updateDerivedData = (tickers: string[], stocks: StockProp[], valuationObj: any) => {
+
+    const dollarPrice = valuationObj["USDKRW=X"];
+    let sumPurchasePrice = 0;
+    let sumValuationPrice = 0;
+
+    stocks.forEach((stock: StockProp) => {
+      sumPurchasePrice += stock.purchasePrice * stock.quantity;
+      sumValuationPrice += valuationObj[stock.ticker] * stock.quantity;
+    });
+
+    const sumPurchasePrice_Won = sumPurchasePrice * dollarPrice;
+    const sumValuationPrice_Won = sumValuationPrice * dollarPrice;
+    const gainPrice = sumValuationPrice - sumPurchasePrice;
+    const gainPrice_Won = gainPrice * dollarPrice;
+    const gainRate = (gainPrice / sumPurchasePrice) * 100;
+
+    const newProfit: ProfitProp = {
+      ...profit,
+      sumPurchasePrice,
+      sumPurchasePrice_Won,
+      sumValuationPrice,
+      sumValuationPrice_Won,
+      gainPrice,
+      gainPrice_Won,
+      gainRate
+    };
+    updatePriceViewDataByCurrency(newProfit, profitViewToDollar);
+    setProfit(newProfit);
+        
+    tickers.map((ticker: string) => {      
+      const stock = stocks.find(s => s.ticker === ticker);
+      if (stock) {
+        
+        stock.valuationPrice = valuationObj[ticker];
+        stock.valuationPrice_Won = stock.valuationPrice * dollarPrice;
+        stock.purchasePrice_Won = stock.purchasePrice * dollarPrice;
+        stock.totalValuationPrice = stock.valuationPrice * stock.quantity;
+        stock.totalValuationPrice_Won = stock.valuationPrice_Won * stock.quantity;
+        stock.totalPurchasePrice = stock.purchasePrice * stock.quantity;
+        stock.totalPurchasePrice_Won = stock.purchasePrice_Won * stock.quantity;
+        stock.weight = (stock.totalValuationPrice / sumPurchasePrice) * 100;             
+      }
+    });
+
+    updateStockListPriceByCurrency(stocks, stockPriceViewToDollar);
+    setStockHoldingList(stocks);
+  }
+
+  const fetchStockHoldingData = async () => {
+
+    const serv = new ProfitService();                
+    const stockHoldingData: StockProp[]  = await serv.getStockHoldingData();    
+    
+    const tickersList: string[] = stockHoldingData.map((item: StockProp) => item.ticker)
+
+    console.log("tickersList: ", tickersList);
+
+    const valuationData = await serv.getValudationData({ "tickers": tickersList });
+
+    updateDerivedData(tickersList, stockHoldingData, valuationData);
+
+    const stockHoldingWeightChartData: any[] = [];
+    stockHoldingData.map((item: StockProp) => {
+      const chartData = { name: item.name, value: item.weight }
+      stockHoldingWeightChartData.push(chartData);      
+    })
 
     const _myStockWeightChartDataOption = {
       tooltip: {
@@ -51,7 +151,7 @@ const Profit = () => {
         orient: 'horizontal', // 범례를 수평으로 설정
         bottom: 20,
         left: 'center', // 범례를 중앙에 배치
-        data: myStockWeightChartData.map(item => item.name)
+        data: stockHoldingWeightChartData.map(item => item.name)
       },
       series: [
         {
@@ -59,7 +159,7 @@ const Profit = () => {
           type: 'pie',
           radius: '70%',
           center: ['50%', '35%'],
-          data: myStockWeightChartData,
+          data: stockHoldingWeightChartData,
           emphasis: {
             itemStyle: {
               shadowBlur: 10,
@@ -71,6 +171,7 @@ const Profit = () => {
       ]
     };    
     setMyStockWeightChartDataOption(_myStockWeightChartDataOption);
+    // setStockHoldingList(stockHoldingData);
   }
 
   const fetchProfitTrendData = async () => {
@@ -141,7 +242,7 @@ const Profit = () => {
   }
 
   useEffect(() => {
-    fetchMyStockData();
+    fetchStockHoldingData();
     fetchProfitTrendData();
     fetchMonthlyProfitTrendData();
   }, [])
@@ -154,16 +255,17 @@ const Profit = () => {
   useEffect(() => {
 
 
-  }, [myStockList])
+  }, [stockHoldingList])
 
   useEffect(() => {
-    const newStockList = updateStockListPriceByCurrency([ ...myStockList ], myStockViewToDollar);
-    setMyStockList(newStockList);  // 새로운 객체로 교체
-  }, [myStockViewToDollar])
+    if (!stockHoldingList) return;
+    updateStockListPriceByCurrency(stockHoldingList, stockPriceViewToDollar);
+    setStockHoldingList(stockHoldingList ? [...stockHoldingList] : []);
+  }, [stockPriceViewToDollar])
 
   const updateStockField = (index: number, field: keyof StockProp, value: any) => {
-    setMyStockList(prev =>
-      prev.map((item, i) =>
+    setStockHoldingList(prev =>
+      (prev ?? []).map((item, i) =>
         i === index ? { ...item, [field]: value } : item
       )
     );
@@ -201,20 +303,35 @@ const Profit = () => {
               </div>
             </div>
 
-            <div className="flex flex-col sm:flex-row justify-between px-6 sm:px-20 mt-4 text-center gap-2">
+            <div className="grid grid-cols-2 grid-rows-2 gap-2 px-6 sm:flex sm:flex-row sm:justify-between sm:px-20 mt-4 text-center">
               <div className="metric">
                 <div className="met-title">매입금액({profitViewToDollar ? '$' : '원'})</div>
-                <div className="met-value">{profit.purchaseAmountViewData.toLocaleString()}</div>
+                <div className="met-value">
+                  <CurrencyValue
+                    value={profit.sumPurchasePriceViewData}
+                    isDollar={profitViewToDollar}
+                  />
+                </div>
               </div>
-              <div className="metric sm:ml-3">
+              <div className="metric">
                 <div className="met-title">평가금액({profitViewToDollar ? '$' : '원'})</div>
-                <div className="met-value">{profit.marketValueViewData.toLocaleString()}</div>
+                <div className="met-value">
+                  <CurrencyValue
+                    value={profit.sumValuationPriceViewData}
+                    isDollar={profitViewToDollar}
+                  />
+                </div>
               </div>
-              <div className="metric sm:ml-3">
+              <div className="metric">
                 <div className="met-title">손익({profitViewToDollar ? '$' : '원'})</div>
-                <div className="met-value">{profit.gainPriceViewData.toLocaleString()}</div>
+                <div className="met-value">
+                  <CurrencyValue
+                    value={profit.gainPriceViewData}
+                    isDollar={profitViewToDollar}
+                  />
+                </div>
               </div>
-              <div className="metric sm:ml-3">
+              <div className="metric">
                 <div className="met-title">손익(%)</div>
                 <div className="met-value">{profit.gainRate.toFixed(2)}</div>
               </div>
@@ -224,7 +341,7 @@ const Profit = () => {
       </div>
 
       <div className='flex px-2 pt-2 h-auto bg-[var(--main-bg-color)]'>
-        <div className='mt-2 w-full h-auto'>          
+        <div className='w-full h-auto'>          
 
           <div className='series-chart-card mt-3 w-full h-auto'>
             <div className='title flex justify-between'>
@@ -232,7 +349,7 @@ const Profit = () => {
               <div className='flex items-center'>
                 <label className='me-2 text-base'>달러로 보기</label>
                 <ToggleSwitch 
-                  enabled={myStockViewToDollar}
+                  enabled={stockPriceViewToDollar}
                   setEnabled={setMyStockViewToDollar}
                   ></ToggleSwitch>
               </div>
@@ -240,7 +357,7 @@ const Profit = () => {
 
             <div className='overflow-auto h-auto px-3 mt-4'>
               <div className="w-full">
-                <div className='w-[100%] h-[400px] pt-4 pb-2'>
+                <div className='w-[100%] h-[640px] md:h-[400px] pb-2'>
                 { 
                   myStockWeightChartDataOption && 
                   <EChartsComponent 
@@ -253,14 +370,22 @@ const Profit = () => {
                     <tr>
                       <th>종목명</th>
                       <th>티커</th>                      
-                      <th>매입금액({myStockViewToDollar ? '$' : '원'})</th>
-                      <th>평가금액({myStockViewToDollar ? '$' : '원'})</th>
+                      <th>매입금액({stockPriceViewToDollar ? '$' : '원'})</th>
+                      <th>평가금액({stockPriceViewToDollar ? '$' : '원'})</th>
                       <th>수량</th>
                       <th>비중(%)</th>
                     </tr>
                   </thead>
                   <tbody>
-                    {myStockList.map((d: any, i: number) => (
+                    {!stockHoldingList && 
+                      <tr className='h-[100px]'>
+                        <td colSpan={6} className="text-center">Loading...</td>
+                      </tr>}
+                    {stockHoldingList && stockHoldingList.length === 0 &&
+                      <tr>
+                        <td colSpan={6} className="text-center">보유 종목이 없습니다.</td>
+                      </tr>}
+                    {stockHoldingList && stockHoldingList.map((d: any, i: number) => (
                         <tr key={i}>
                           <td>
                             <TextInput
@@ -279,20 +404,20 @@ const Profit = () => {
                             />
                           </td>
                           <td>
-                            <TextInput
-                              type="text"
-                              value={Number(d.purchaseAmountViewData).toLocaleString()}
-                              onChange={e => updateStockField(i, 'purchaseAmountViewData', Number(e.target.value))}
-                              onKeyDown={e => handleStockInputKeyDown(e, i, 'purchaseAmountViewData')}
-                            />
+                            <MoneyInput
+                              value={d.totalPurchasePriceViewData}
+                              isDollar={stockPriceViewToDollar}
+                              onChange={e => updateStockField(i, 'totalPurchasePriceViewData', e.target.value)}
+                              onKeyDown={e => handleStockInputKeyDown(e, i, 'totalPurchasePriceViewData')}
+                            />                            
                           </td>
                           <td>
-                            <TextInput
-                              type="text"
-                              value={Number(d.valuationViewData).toLocaleString()}
-                              onChange={e => updateStockField(i, 'valuationViewData', Number(e.target.value))}
-                              onKeyDown={e => handleStockInputKeyDown(e, i, 'valuationViewData')}
-                            />
+                            <MoneyInput
+                              value={d.totalValuationPriceViewData}
+                              isDollar={stockPriceViewToDollar}
+                              onChange={e => updateStockField(i, 'totalValuationPriceViewData', e.target.value)}
+                              onKeyDown={e => handleStockInputKeyDown(e, i, 'totalValuationPriceViewData')}
+                            />                              
                           </td>
                           <td>
                             <TextInput
@@ -304,9 +429,9 @@ const Profit = () => {
                           </td>                          
                           <td>
                             <TextInput
-                              type="number"
-                              value={d.weight}
-                              onChange={e => updateStockField(i, 'weight', Number(e.target.value))}
+                              type="text"
+                              value={Number(d.weight).toFixed(2)}
+                              onChange={e => updateStockField(i, 'weight', Number(e.target.value).toFixed(2))}
                               onKeyDown={e => handleStockInputKeyDown(e, i, 'weight')}
                             />
                           </td>
@@ -318,7 +443,7 @@ const Profit = () => {
             </div>            
           </div>
 
-          <div className="flex flex-col sm:flex-row w-full px-2 h-[600px] sm:h-[400px] mt-4">
+          <div className="flex flex-col sm:flex-row w-full px-2 h-[600px] sm:h-[400px] mt-4 mb-4">
             <div className="series-chart-card w-full sm:w-1/2 h-full sm:me-2 mb-4 sm:mb-0">
               <div className="title flex justify-between">
                 <label>수익률 변화(%)</label>
@@ -349,12 +474,8 @@ const Profit = () => {
             </div>
           </div>
         </div>        
-      </div>
-
-      
-    </div>
-
-    
+      </div>      
+    </div>    
   );
 };
 

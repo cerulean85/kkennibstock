@@ -1,5 +1,5 @@
 'use client'
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import EChartsComponent from '@/graphs/EChartsComponent';
 import { MetricsService } from '@/services/MetricsService';
 
@@ -22,9 +22,31 @@ const MetricsPage = () => {
   const [ lastOilValue, setLastOilValue ] = useState(0);
   const [ lastUs10yValue, setLastUs10yValue ] = useState(0);
 
-  const fetchVixData = async () => {
+  const fetchMetricsData = async () => {
     const serv = new MetricsService();
-    const data: any[] = await serv.getVixData();
+    const tickersPeriods = {
+      "tickers_periods": {
+        "^VIX": "3mo",
+        "^VXN": "3mo",
+        "^GSPC": "1mo",
+        "^NDX": "1mo",
+        "USDKRW=X": "1mo",
+        "GC=F": "1mo",
+        "CL=F": "1mo",
+        "^TNX": "1mo"
+      }
+    }
+    const data: any = await serv.getMetricsData(tickersPeriods);
+    fetchVixData(data["^VIX"]);
+    fetchVxnData(data["^VXN"]);
+    fetchSp500Data(data["^GSPC"]);
+    fetchNdxData(data["^NDX"]);
+    fetctUsdkrData(data["USDKRW=X"]);
+    fetchGoldData(data["GC=F"]);
+    fetchOilData(data["CL=F"]);
+    fetchUs10yData(data["^TNX"]);
+  }
+  const fetchVixData = (data: any[]) => {
     const xValues = data.map(obj => obj.date);
     const yValues = data.map(obj => obj.value);
     const chartData = {
@@ -60,9 +82,7 @@ const MetricsPage = () => {
     setLastVixValue(lastValue.value);
   };
 
-  const fetchVxnData = async () => {
-    const serv = new MetricsService();
-    const data: any[] = await serv.getVxnData();
+  const fetchVxnData = (data: any[]) => {
     const xValues = data.map(obj => obj.date);
     const yValues = data.map(obj => obj.value);
     const chartData = {
@@ -98,10 +118,7 @@ const MetricsPage = () => {
     setLastVxnValue(lastValue.value);
   };
 
-
-  const fetchSp500Data = async () => {
-    const serv = new MetricsService();
-    const data: any[] = await serv.getSp500Data();
+  const fetchSp500Data = (data: any[]) => {
     const xValues = data.map(obj => obj.date);
     const yValues = data.map(obj => obj.value);
     const chartData = {
@@ -137,9 +154,7 @@ const MetricsPage = () => {
     setLastSp500Value(lastValue.value);
   };
 
-  const fetchNdxData = async () => {
-    const serv = new MetricsService();
-    const data: any[] = await serv.getNdxData();
+  const fetchNdxData = (data: any[]) => {
     const xValues = data.map(obj => obj.date);
     const yValues = data.map(obj => obj.value);
     const chartData = {
@@ -175,9 +190,7 @@ const MetricsPage = () => {
     setLastNdxValue(lastValue.value);
   };
 
-  const fetctUsdkrData = async () => {
-    const serv = new MetricsService();
-    const data: any[] = await serv.getUsdkrData();
+  const fetctUsdkrData = (data: any[]) => {
     const xValues = data.map(obj => obj.date);
     const yValues = data.map(obj => obj.value);
     const chartData = {
@@ -213,9 +226,7 @@ const MetricsPage = () => {
     setLastUsdkrValue(lastValue.value);    
   };
 
-  const fetchGoldData = async () => {
-    const serv = new MetricsService();
-    const data: any[] = await serv.getGoldData();
+  const fetchGoldData = (data: any[]) => {
     const xValues = data.map(obj => obj.date);
     const yValues = data.map(obj => obj.value);
     const chartData = {
@@ -251,9 +262,7 @@ const MetricsPage = () => {
     setLastGoldValue(lastValue.value);    
   };
 
-  const fetchOilData = async () => {
-    const serv = new MetricsService();
-    const data: any[] = await serv.getOilData();
+  const fetchOilData = (data: any[]) => {
     const xValues = data.map(obj => obj.date);
     const yValues = data.map(obj => obj.value);
     const chartData = {
@@ -289,9 +298,7 @@ const MetricsPage = () => {
     setLastOilValue(lastValue.value);        
   };
 
-  const fetchUs10yData = async () => {
-    const serv = new MetricsService();
-    const data: any[] = await serv.getUs10yData();
+  const fetchUs10yData = (data: any[]) => {
     const xValues = data.map(obj => obj.date);
     const yValues = data.map(obj => obj.value);
     const chartData = {
@@ -329,14 +336,7 @@ const MetricsPage = () => {
 
 
   useEffect(()=> {
-    fetchVixData();
-    fetchVxnData();
-    fetchSp500Data();
-    fetchNdxData();
-    fetctUsdkrData();
-    fetchGoldData();
-    fetchOilData();
-    fetchUs10yData();
+    fetchMetricsData();
   }, [])
 
   return (

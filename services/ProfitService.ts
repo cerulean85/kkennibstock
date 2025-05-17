@@ -21,20 +21,16 @@ export class ProfitService extends BaseService {
 	// 	return createProfit();
 	// }
 
-	async getMyStockData(toDollar: boolean) {
-		const response = await this.repo.getMyStockData();
+	async getStockHoldingData() {
+		const response = await this.repo.getStockHoldingData();
 		const result = this.getData(response);
-		
-		if (result) {
-			const stockList: StockProp[] = [];
-			result.map((item: any) => {				
-				const stock: StockProp = item;
-				updateStockPriceByCurrency(stock, toDollar);
-				stockList.push(stock);
-			});			
-			return stockList;
-		}
-		return [];
+		return result;
+	}
+
+	async getValudationData(tickers: any) {
+		const response = await this.repo.getValudationData(tickers);
+		const result = this.getData(response);
+		return result;
 	}
 
 	async getProfitTrendData() {

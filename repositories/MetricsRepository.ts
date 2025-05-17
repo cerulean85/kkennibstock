@@ -1,4 +1,4 @@
-import { reqGet, reqMetricsGet } from "./req"
+import { reqGet, reqMetricsGet, reqMetricsPost } from "./req"
 
 export class MetricsRepository {
 	private toppath: string = "metrics";
@@ -7,6 +7,12 @@ export class MetricsRepository {
 		const response = await reqGet(`${this.toppath}/${pathname}`, pathname);
 		return response;
 	}		
+	async getMetricsData(tickersPeriods: any) {
+		const pathname = "metrics";
+		const response = await reqMetricsPost(`${pathname}`, tickersPeriods, pathname);
+		return response;
+
+	}
 	async getVixData() {
 		const pathname = "vix";
 		const response = await reqMetricsGet(`${pathname}`, pathname);
