@@ -2,9 +2,9 @@
 	"domain-local": "http://localhost:8080",
 	"domain-remote": "https://happ.kkennib.net",
 	"domain-metrics": "https://stockapi.kkennib.net",
-	"domain": "http://localhost:8080",
-	"domainMetrics": "http://localhost:8005",
-	"domainHapp": "http://localhost:8080",
+	"domain": "https://happ.kkennib.net",
+	"domainMetrics": "http://localhost:8080",
+	"domainHapp": "https://happ.kkennib.net",
 	"deployment": true,
 	
 	"dummy": {
