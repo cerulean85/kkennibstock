@@ -71,7 +71,7 @@ const Profit = () => {
   const [stockPriceViewToDollar, setMyStockViewToDollar] = useState(true);
   const [profitTrendChartOption, setProfitTrendChartOption] = useState<any>({});
   const [monthlyProfitTrendChartOption, setMonthlyProfitTrendChartOption] = useState<any>({});
-  const [myStockWeightChartDataOption, setMyStockWeightChartDataOption] = useState<any>({});
+  const [myStockWeightChartDataOption, setMyStockWeightChartDataOption] = useState<any|null>(null);
 
 
   const updateDerivedData = (tickers: string[], stocks: StockProp[], valuationObj: any) => {
@@ -149,7 +149,7 @@ const Profit = () => {
       },
       legend: {
         orient: 'horizontal', // 범례를 수평으로 설정
-        bottom: 20,
+        bottom: 30,
         left: 'center', // 범례를 중앙에 배치
         data: stockHoldingWeightChartData.map(item => item.name)
       },
@@ -158,7 +158,7 @@ const Profit = () => {
           // name: '시장 점유율',
           type: 'pie',
           radius: '70%',
-          center: ['50%', '35%'],
+          center: ['50%', '30%'],
           data: stockHoldingWeightChartData,
           emphasis: {
             itemStyle: {
@@ -216,7 +216,7 @@ const Profit = () => {
     let trendChartData = {
       backgroundColor: 'transparent',
       tooltip: { trigger: 'axis' },
-      grid: { top: '10%', bottom: '15%' },
+      grid: { top: '20px', bottom: '15%' },
       // legend: { data: ['수익률'], right: '5%', top: '4%' },
       xAxis: { type: 'category', data: xAxis, },
       yAxis: [
@@ -305,8 +305,8 @@ const Profit = () => {
 
             <div className="grid grid-cols-2 grid-rows-2 gap-2 px-6 sm:flex sm:flex-row sm:justify-between sm:px-20 mt-4 text-center">
               <div className="metric">
-                <div className="met-title">매입금액({profitViewToDollar ? '$' : '원'})</div>
-                <div className="met-value">
+                <div className="font-bold text-sm md:text-lg">매입금액({profitViewToDollar ? '$' : '원'})</div>
+                <div className="font-bold text-lg md:text-3xl">
                   <CurrencyValue
                     value={profit.sumPurchasePriceViewData}
                     isDollar={profitViewToDollar}
@@ -314,8 +314,8 @@ const Profit = () => {
                 </div>
               </div>
               <div className="metric">
-                <div className="met-title">평가금액({profitViewToDollar ? '$' : '원'})</div>
-                <div className="met-value">
+                <div className="font-bold text-sm md:text-lg">평가금액({profitViewToDollar ? '$' : '원'})</div>
+                <div className="font-bold text-lg md:text-3xl">
                   <CurrencyValue
                     value={profit.sumValuationPriceViewData}
                     isDollar={profitViewToDollar}
@@ -323,8 +323,8 @@ const Profit = () => {
                 </div>
               </div>
               <div className="metric">
-                <div className="met-title">손익({profitViewToDollar ? '$' : '원'})</div>
-                <div className="met-value">
+                <div className="font-bold text-sm md:text-lg">손익({profitViewToDollar ? '$' : '원'})</div>
+                <div className="font-bold text-lg md:text-3xl">
                   <CurrencyValue
                     value={profit.gainPriceViewData}
                     isDollar={profitViewToDollar}
@@ -332,8 +332,8 @@ const Profit = () => {
                 </div>
               </div>
               <div className="metric">
-                <div className="met-title">손익(%)</div>
-                <div className="met-value">{profit.gainRate.toFixed(2)}</div>
+                <div className="font-bold text-sm md:text-lg">손익(%)</div>
+                <div className="font-bold text-lg md:text-3xl">{profit.gainRate.toFixed(2)}</div>
               </div>
             </div>
           </div>
@@ -357,14 +357,21 @@ const Profit = () => {
 
             <div className='overflow-auto h-auto px-3 mt-4'>
               <div className="w-full">
-                <div className='w-[100%] h-[640px] md:h-[400px] pb-2'>
+
+                {
+                  !myStockWeightChartDataOption &&
+                  <div className='text-sm w-full h-[100px] flex justify-center items-center'>loading...</div>
+                }
+
                 { 
                   myStockWeightChartDataOption && 
-                  <EChartsComponent 
-                    width={'100%'} height={'100%'} 
-                    chartData={myStockWeightChartDataOption} />
+                  <div className='w-[100%] h-[600px] md:h-[400px] pb-2'>
+                    <EChartsComponent 
+                      width={'100%'} height={'100%'} 
+                      chartData={myStockWeightChartDataOption} />
+                  </div>
                 }
-                </div>
+                
                 <table className="text-sm text-left">
                   <thead>
                     <tr>
@@ -379,7 +386,7 @@ const Profit = () => {
                   <tbody>
                     {!stockHoldingList && 
                       <tr className='h-[100px]'>
-                        <td colSpan={6} className="text-center">Loading...</td>
+                        <td colSpan={6} className="text-center">loading...</td>
                       </tr>}
                     {stockHoldingList && stockHoldingList.length === 0 &&
                       <tr>
