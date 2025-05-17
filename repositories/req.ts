@@ -1,32 +1,36 @@
 import repoData from "./repo.json";
+import domainData from "./domain.json";
 
 interface Repo {
-  domain: string;
-  domainMetrics: string;
-  domainHapp: string;
-  deployment?: boolean;
   dummy?: Record<string, any>;
 }
 
+interface Domain {
+  deployment: boolean;
+  happ: string; 
+  stock: string;
+}
+
 const repo: Repo = repoData;
+const domain: Domain = domainData;
 
 export async function reqGet(pathAndQuery: string, dummyName: string = "") {
-  const result = await _reqGet(pathAndQuery, dummyName, repo.domain);
+  const result = await _reqGet(pathAndQuery, dummyName, domain.happ, domain.deployment);
   return result;
 }
 
 export async function reqMetricsGet(pathAndQuery: string, dummyName: string = "") {
-  const result = await _reqGet(pathAndQuery, dummyName, repo.domainMetrics);
+  const result = await _reqGet(pathAndQuery, dummyName, domain.stock, domain.deployment);
   return result;
 }
 
 export async function reqHappGet(pathAndQuery: string, dummyName: string = "") {
-  const result = await _reqGet(pathAndQuery, dummyName, repo.domainHapp);
+  const result = await _reqGet(pathAndQuery, dummyName, domain.happ, domain.deployment);
   return result;
 }
 
-async function _reqGet(pathAndQuery: string, dummyName: string = "", domain: string) {
-  const shouldUseRealAPI = repo.deployment;
+async function _reqGet(pathAndQuery: string, dummyName: string = "", domain: string, deployment: boolean) {
+  const shouldUseRealAPI = deployment;
   const dummyData = repo.dummy?.[dummyName];
 
   if (shouldUseRealAPI) {
@@ -63,17 +67,17 @@ async function _reqGet(pathAndQuery: string, dummyName: string = "", domain: str
 }
 
 export async function reqPost(path: string, data: any = {}, dummyName: string = "") {
-  const result = await _reqPost(repo.domain, path, data, dummyName);
+  const result = await _reqPost(domain.happ, path, data, dummyName, domain.deployment);
   return result;
 }
 
 export async function reqMetricsPost(path: string, data: any = {}, dummyName: string = "") {
-  const result = await _reqPost(repo.domainMetrics, path, data, dummyName);
+  const result = await _reqPost(domain.stock, path, data, dummyName, domain.deployment);
   return result;
 }
 
 export async function reqHappPost(path: string, data: any = {}, dummyName: string = "") {
-  const result = await _reqPost(repo.domainHapp, path, data, dummyName);
+  const result = await _reqPost(domain.happ, path, data, dummyName, domain.deployment);
   return result;
 }
 
@@ -82,8 +86,9 @@ export async function _reqPost(
   path: string,
   data: any = {},
   dummyName: string = "",  
+  deployment: boolean = true
 ) {
-  const shouldUseRealAPI = repo.deployment;
+  const shouldUseRealAPI = deployment;
   const dummyData = repo.dummy?.[dummyName];
 
   if (shouldUseRealAPI) {
@@ -148,8 +153,8 @@ export async function _reqPost(
 
 export async function reqPut(path: string, data: any = {}) {
   try {
-    if (repo.deployment && repo.domain) {
-      const response = await fetch(`${repo.domain}/${path}`, {
+    if (domain.deployment && domain.happ) {
+      const response = await fetch(`${domain.happ}/${path}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -169,8 +174,8 @@ export async function reqPut(path: string, data: any = {}) {
 
 export async function reqPatch(path: string, data: any = {}) {
   try {
-    if (repo.deployment && repo.domain) {
-      const response = await fetch(`${repo.domain}/${path}`, {
+    if (domain.deployment && domain.happ) {
+      const response = await fetch(`${domain.happ}/${path}`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
@@ -190,8 +195,8 @@ export async function reqPatch(path: string, data: any = {}) {
 
 export async function reqDelete(path: string, data: any = {}) {
   try {
-    if (repo.deployment && repo.domain) {
-      const response = await fetch(`${repo.domain}/${path}`, {
+    if (domain.deployment && domain.happ) {
+      const response = await fetch(`${domain.happ}/${path}`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",

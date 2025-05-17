@@ -1,0 +1,11 @@
+{
+	"deployment": true,
+	"happ": "https://happ.kkennib.net",
+	"happ-remote": "https://happ.kkennib.net",
+	"happ-local": "http://localhost:8080",
+
+	"stock": "https://stockapi.kkennib.net",
+	"stock-remote": "https://stockapi.kkennib.net",
+	"stock-local": "http://localhost:8005"
+	
+}
