@@ -12,7 +12,7 @@ const nextConfig: NextConfig = {
     return [
       {
         source: '/',
-        destination: '/profit',
+        destination: '/metrics',
         permanent: true, // true: 301 리다이렉트, false: 302 리다이렉트
       },
     ];
