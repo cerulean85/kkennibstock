@@ -1,0 +1,89 @@
+import { fetchGet, fetchPatch, fetchPost, fetchPut } from "./req"
+
+export class UserRepository {
+	async login(userId: string, password: string): Promise<any[]> {
+		const res: any = await fetchPost('users/login', {
+			'userId': userId, 'password': password
+		});
+		return res;
+	}
+
+	async signUp(
+		userId: string,
+		password: string,
+		email: string,
+		name: string,
+		affiliation: string,
+		phoneNumber: string
+	) {
+		const res: any = await fetchPost('users/signup', {
+			'userId': userId,
+      'password': password,
+      'email': email,
+      'name': name,
+      'affiliation': affiliation,
+      'phoneNumber': phoneNumber
+		});
+		return res;
+	}
+
+	async logout(
+		userSeqId: number,
+		refreshToken: string
+	) {
+		const res: any = await fetchPost(`users/${userSeqId}/logout`, { 'refreshToken': refreshToken });
+		return res;
+	}
+
+	async findUserId(emailOrPhoneNumber: string): Promise<any[]> {
+		const res: any = await fetchPost('users/id', {
+			'emailOrPhoneNumber': emailOrPhoneNumber
+		});
+		return res.data;
+	}
+
+	async findUserInfo(userSeqId: number): Promise<any[]> {
+		const res: any = await fetchGet(`users/${userSeqId}`, 'findUserInfo');
+		return res;
+	}
+
+	async updateUserInfo(userSeqId: number, name: string, org: string, phone: string, email: string): Promise<any[]> {
+		const res: any = await fetchPatch(`users/${userSeqId}/info`, {
+			'name': name,
+			'affiliation': org,
+			'phoneNumber': phone,
+			'email': email
+		});
+		return res;
+	}
+
+	async validatePassword(userSeqId: number, pwd: string): Promise<any[]> {
+		const res: any = await fetchPost(`users/${userSeqId}/validate-password`, {
+			'password': pwd
+		});
+		return res;
+	}
+
+	async updatePwd(userSeqId: number, pwd: string): Promise<any[]> {
+		const res: any = await fetchPatch(`users/${userSeqId}/update-password`, {
+			'password': pwd
+		});
+		return res;
+	}
+
+	async getUserList(startDate: string, endDate: string, keyword: string, page: number, limit: number) {
+		const res: any = await fetchGet(`users?startDate=${startDate}&endDate=${endDate}&keyword=${keyword}&page=${page}&limit=${limit}`, 'getUserList');
+		return res;
+	}
+
+	async getLoginHistoryList(startDate: string, endDate: string, keyword: string, page: number, limit: number) {
+		const res: any = await fetchGet(`history?startDate=${startDate}&endDate=${endDate}&keyword=${keyword}&page=${page}&limit=${limit}`, 'getLoginHistoryList');
+		return res;
+	}
+	
+	async checkDuplicedUserId(userId: string): Promise<any> {
+		// alert(`users/check?userId=${userId}`)
+		const res: any = await fetchGet(`users/check?userId=${userId}`, 'checkDuplicedUserId');
+		return res;
+	}
+}
