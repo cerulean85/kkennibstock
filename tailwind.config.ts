@@ -18,8 +18,8 @@ export default {
         foreground: "var(--foreground)",
       },
       fontFamily: {
-        'noto': ['Noto Sans KR', 'sans-serif'],
-        'noto-serif': ['Noto Serif KR', 'serif']
+        notoSansKR: ['"Noto Sans KR"', 'sans-serif'],
+        roboto: ['Roboto', 'sans-serif'],
       },
       animation: {
         'spin-slow': 'spin 3s linear infinite', // 3초에 한 바퀴

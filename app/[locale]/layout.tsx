@@ -6,6 +6,7 @@ import TokenManager from '@/components/TokenManager';
 import { RootState, UseSelector } from '@/stores/store';
 import Loading from '@/components/Loading';
 import Script from "next/script";
+import { useLocale } from "@/layouts/LocaleContext";
 
 export default function AppLayout({
   children,
@@ -33,12 +34,13 @@ export default function AppLayout({
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
   const allPageLoading = UseSelector((state: RootState) => state.appConfig.allPageLoading);
+  const locale = useLocale();
 
   return (
     
       <div className="flex flex-col min-h-screen mx-auto">    
         
-        <TokenManager redirectPath={`/${params.locale}/login`} />
+        <TokenManager redirectPath={`/${locale}/login`} />
         {allPageLoading ? (
           <div className="flex flex-col items-center justify-center min-h-screen">
             <Loading />

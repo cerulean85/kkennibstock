@@ -2,6 +2,9 @@
 import React, { useState, useEffect } from 'react';
 import EChartsComponent from '@/graphs/EChartsComponent';
 import { MetricsService } from '@/services/MetricsService';
+import { UseDispatch } from '@/stores/store';
+import { setAllPageLoading } from '@/stores/appConfigSlice';
+import { useLocale } from '@/layouts/LocaleContext';
 
 const MetricsPage = () => {  
   const [ vixDataOption, setVixDataOption ] = useState<any>(null);
@@ -335,8 +338,16 @@ const MetricsPage = () => {
   };
 
 
+  const locale = useLocale();
+  const dispatch = UseDispatch();
   useEffect(()=> {
+    const accessToken: string | null = localStorage.getItem("accessToken");
+    if (!accessToken) {
+      alert("You have to sign in first.")
+			window.location.href = `/${locale}/signin`;
+    }  
     fetchMetricsData();
+    dispatch(setAllPageLoading(false));    
   }, [])
 
   return (
