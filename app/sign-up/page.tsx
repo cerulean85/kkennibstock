@@ -2,61 +2,29 @@
 import React from 'react';
 import { useState } from "react";
 import { useRouter  } from 'next/navigation';
-import { MemberService } from '@/services/MemberService';
 import Image from 'next/image';
-import { useLocale } from '@/layouts/LocaleContext';
 import { GoogleOAuthProvider } from '@react-oauth/google';
-import Loading from '@/components/Loading';
-import GoogleLoginButton from '@/components/GoogleLoginButton';
+import GoogleLogInButton from '@/components/google/GoogleLogInButton';
 import EmailLoginButton from '@/components/EmailLoginButton';
 import SignUpForm from '@/components/SignUpForm';
+import { Page } from '@/lib/regacy';
+import { Account } from '@/lib/regacy';
 
-
-const SignInPage = () => {
-  
-  const locale = useLocale();  
-  const [t, setT] = useState<any>();
-
-  const [userId, setUserId] = useState("");
-  const [password, setPassword] = useState("");
-  const [selectedLocale, setSelectedLocale] = useState(locale);
-  const [loading, setLoading] = useState(false);
-
+const SignInPage = () => {    
   const router = useRouter();
-  const loginUser = async (email: string, password: string) => {
-    alert("Success!!")
-    // e.preventDefault();
-
-    // const serv = new MemberService();
-    // const result: any = await serv.signIn(userId, password);
-    // if (result) {
-    //   setLoading(true);
-    //   const isAdmin = localStorage.getItem("isAdmin") === 'Y';
-    //   router.push(`/${locale}/${isAdmin ? 'adm/user_list' : 'ops/stat_fwh'}`); 
-    // } else {
-    //   alert("입력하신 아이디 또는 비밀번호를 확인해주세요.");
-    // }
-  };
-
-  const [joinType, setJoinType] = useState('');
+  const [accountType, setAccountType] = useState<Account | null>(null);
   const moveLogin = async (e: any) => {
     e.preventDefault();
-    router.push("/log-in"); 
+    router.push('/' + Page.LogIn); 
   };
 
-  return loading ? (
-      <div className="flex flex-col items-center justify-center min-h-screen">
-        <Loading />
-      </div>
-      ) : (
+  return (
     <div className="min-h-screen">
-
-
       <div className="h-[30px]">
       { 
-        joinType === "email" && (        
+        accountType == Account.EMAIL && (        
           <div 
-            onClick={() => setJoinType("")}
+            onClick={() => setAccountType(null)}
             className="flex items-center pt-2 ps-2 cursor-pointer">
             <Image width={26} height={26} src="/images/icon/login-back-arrow.svg" alt="back" />
             <div className="font-medium ms-1">Back</div>        
@@ -64,7 +32,6 @@ const SignInPage = () => {
         )
       }
       </div>
-
 
       <div className='mt-8'>
         <div className='flex justify-center items-center'>
@@ -77,23 +44,23 @@ const SignInPage = () => {
         <div className="flex justify-center mt-5 w-full">
           <div className="w-full p-6">
           {
-            joinType == "" &&
+            !accountType &&
             <div>
               <div className='mb-2'>
                 <GoogleOAuthProvider clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID ?? ''}>
-                  <GoogleLoginButton name="Sign up with google" actionType="join"/>  
+                  <GoogleSignUpButton></GoogleSignUpButton>
                 </GoogleOAuthProvider>
               </div>
               <div>
                 <EmailLoginButton 
                   name="Sign up with eamil"
-                  handler={() => setJoinType("email")} />
+                  handler={() => setAccountType(Account.EMAIL)} />
               </div>
             </div>
           }
           
           {
-            joinType == "email" &&
+            accountType == Account.EMAIL &&
             <SignUpForm></SignUpForm>
           }
 

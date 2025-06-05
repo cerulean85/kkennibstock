@@ -12,7 +12,7 @@ export default async function SignUpLayout({ children, params }: { children: Rea
     <ProviderWrapper>
       <html lang={_p.locale}>
         <head>
-          <title>LING LONG: Login</title>
+          <title>Stock DEV: Login</title>
         </head>
         <body style={{ backgroundColor: 'var(--main-bg-color)' }} className="min-h-screen">
           <div className="flex">

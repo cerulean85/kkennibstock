@@ -6,22 +6,28 @@ import Image from 'next/image';
 import { useLocale } from '@/layouts/LocaleContext';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import Loading from '@/components/Loading';
-import GoogleLoginButton from '@/components/GoogleLoginButton';
+import GoogleLogInButton from '@/components/google/GoogleLogInButton';
 import EmailLoginButton from '@/components/EmailLoginButton';
 import SignInForm from '@/components/SignInForm';
 import FindPasswordForm from '@/components/FindPasswordForm';
+import { Page } from '@/lib/domain';
 
 const LoginPage = () => {
   
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 
+  enum SubPage {
+    LogInEmail = "log-in-email",
+    UpdatePassword = "update-password",    
+  }
+
   const moveSignUp = async (e: any) => {
     e.preventDefault();
-    router.push("/sign-up"); 
+    router.push('/' + Page.SignUp); 
   };
 
-  const [loginType, setLoginType] = useState('');
+  const [currentSubPage, setCurrentSubPage] = useState<SubPage | null>(null);
 
   return loading ? (
     <div className="flex flex-col items-center justify-center min-h-screen">
@@ -31,11 +37,11 @@ const LoginPage = () => {
     <div className="min-h-screen">
       <div className="h-[30px]">
         { 
-          loginType !== "" && (        
+          currentSubPage && (        
             <div 
               onClick={() => {
-                if (loginType === "email") setLoginType("");
-                if (loginType === "pwd") setLoginType("email");
+                if (currentSubPage === SubPage.LogInEmail) setCurrentSubPage(null);
+                if (currentSubPage === SubPage.UpdatePassword) setCurrentSubPage(SubPage.LogInEmail);
               }}
               className="flex items-center pt-2 ps-2 cursor-pointer">
               <Image width={26} height={26} src="/images/icon/login-back-arrow.svg" alt="back" />
@@ -51,32 +57,32 @@ const LoginPage = () => {
         </div>
 
         <div className="flex justify-center text-2xl mt-20">
-          {loginType == '' && "Log in"}
-          {loginType == "pwd" && "Recover your password"}
+          {!currentSubPage && "Log in"}
+          {currentSubPage == SubPage.UpdatePassword && "Recover your password"}
           
         </div>
 
         <div className="flex justify-center mt-5 w-full">
           <div className="w-full p-6">
             {
-              loginType == "" &&
+              currentSubPage &&
               <div>
                 <div className='mb-2'>
                   <GoogleOAuthProvider clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID ?? ''}>
-                    <GoogleLoginButton name="Sign in with google" actionType="login"/>  
+                    <GoogleLogInButton name="Sign in with google" actionType="login"/>  
                   </GoogleOAuthProvider>
                 </div>
                 <div>
                   <EmailLoginButton 
                     name="Sign in with eamil"
-                    handler={() => setLoginType("email")} />
+                    handler={() => setCurrentSubPage(SubPage.LogInEmail)} />
                 </div>            
               </div>
             }
-            {loginType == "email" && <SignInForm></SignInForm>}            
-            {loginType == "pwd" && <FindPasswordForm></FindPasswordForm>}
+            {currentSubPage == SubPage.LogInEmail && <SignInForm></SignInForm>}            
+            {currentSubPage == SubPage.UpdatePassword && <FindPasswordForm></FindPasswordForm>}
             {
-              loginType !== "pwd" &&
+              currentSubPage !== SubPage.UpdatePassword &&
               <div className='flex items-center mt-14 p-1'>
                 <div className='text-[0.8rem]'>Don’t you have an account?</div>
                 <button className="btn-link text-[0.9rem] ms-2" onClick={moveSignUp}>Sign up</button>                
@@ -84,10 +90,10 @@ const LoginPage = () => {
             }
 
             {
-              loginType == "email" &&              
+              currentSubPage == SubPage.LogInEmail &&              
               <div className='flex items-center mt-2 p-1'>
                 <div className='text-[0.8rem]'>Forgot your password?</div>                
-                <button className="btn-link text-[0.9rem] ms-2" onClick={() => setLoginType("pwd")}>Find you password</button>
+                <button className="btn-link text-[0.9rem] ms-2" onClick={() => setCurrentSubPage(SubPage.UpdatePassword)}>Find you password</button>
               </div>              
             }
           </div>

@@ -7,13 +7,14 @@ export class MemberService {
 		this.repo = new MemberRepository();
 	}
 
-	async signIn(email: string, password: string, accountType: string) {
-		const result: any = await this.repo.signIn(email, password, accountType);		
+	async logIn(email: string, password: string, accountType: string) {
+		const result: any = await this.repo.logIn(email, password, accountType);		
 		if (!result) {
 			localStorage.removeItem('accessToken');
 			localStorage.removeItem('refreshToken');
 			localStorage.removeItem('email');
 			localStorage.removeItem('accountType');
+			alert("Login failed.");
 			return false;			
 		}
 		console.log('response ======> ');
@@ -29,7 +30,10 @@ export class MemberService {
 
 async signUp(email: string, password: string, accountType: string) {
 	let result = await this.repo.signUp(email, password, accountType);
-	if (!result) return false;
+	if (!result) {
+		alert("Your registration was successful.")
+		return false;
+	}
 	return true;
 }
 
@@ -163,7 +167,10 @@ async signUp(email: string, password: string, accountType: string) {
 				},
 			}
 		).then(res => res.json());
-		if (!userInfo || !userInfo.email) return '';
+		if (!userInfo || !userInfo.email) {
+			alert("Email not found.");
+			return null;
+		}
 		return userInfo.email;
 	}
 }

@@ -10,10 +10,10 @@ export default function FindPasswordForm() {
 	const validate = () => {
 		if (!validEmail) {
 			alert("Please enter a valid email address.");
-  		return false;
+			return false;
 		}
 
-		return true;		
+		return true;
 	}
 
 	const sendResetLink = () => {
@@ -27,8 +27,8 @@ export default function FindPasswordForm() {
 		if (e.key === "Enter") {
 			sendResetLink();
 		}
-  };
-	
+	};
+
 
 	useEffect(() => {
 		const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -54,7 +54,7 @@ export default function FindPasswordForm() {
 			/>
 
 			{
-				(email.length > 0 && !validEmail) && 
+				(email.length > 0 && !validEmail) &&
 				<div className="flex items-center px-2 pt-2">
 					<div>
 						<Image src="/images/icon/warning-small.png" width={16} height={16} alt="warning-small" />

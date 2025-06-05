@@ -1,8 +1,8 @@
 import { fetchGet, fetchPatch, fetchPost, fetchPut } from "./req"
 
 export class MemberRepository {
-	async signIn(email: string, password: string, accountType: string): Promise<any[]> {
-		const res: any = await fetchPost('member/signin', {
+	async logIn(email: string, password: string, accountType: string): Promise<any[]> {
+		const res: any = await fetchPost('member/log-in', {
 			'email': email,
       'password': password,      
 			"accountType": accountType
@@ -11,18 +11,10 @@ export class MemberRepository {
 	}
 
 	async signUp(email: string, password: string, accountType: string) {
-		const res: any = await fetchPost('member/signup', {
+		const res: any = await fetchPost('member/sign-up', {
 			'email': email,
       'password': password,      
 			"accountType": accountType
-		});
-		return res;
-	}
-
-	async signUpGoogle(credential: string) {
-		const res: any = await fetchPost('member/signup-google', {
-      'credential': credential,
-			"accountType": "google"
 		});
 		return res;
 	}
