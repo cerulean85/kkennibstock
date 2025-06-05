@@ -7,10 +7,11 @@ import Image from 'next/image';
 import { useLocale } from '@/layouts/LocaleContext';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import Loading from '@/components/Loading';
-import GoogleLogInButton from '@/components/google/GoogleLogInButton';
+import GoogleLogInButton from '@/components/login/GoogleLogInButton';
 import EmailLoginButton from '@/components/EmailLoginButton';
-import SignUpForm from '@/components/SignUpForm';
+import SignUpForm from '@/components/login/SignUpForm';
 import { Account, Page } from '@/lib/regacy';
+import UpdatePasswordForm from '@/components/login/UpdatePasswordForm';
 
 
 const UpdatePasswordPage = () => {
@@ -69,26 +70,8 @@ const UpdatePasswordPage = () => {
 
         <div className="flex justify-center mt-5 w-full">
           <div className="w-full p-6">
-          {
-            !accountType &&
-            <div>
-              <div className='mb-2'>
-                <GoogleOAuthProvider clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID ?? ''}>
-                  <GoogleLogInButton name="Sign up with google" actionType="join"/>  
-                </GoogleOAuthProvider>
-              </div>
-              <div>
-                <EmailLoginButton 
-                  name="Sign up with eamil"
-                  handler={() => setAccountType(Account.EMAIL)} />
-              </div>
-            </div>
-          }
           
-          {
-            accountType == Account.EMAIL &&
-            <SignUpForm></SignUpForm>
-          }
+            <UpdatePasswordForm></UpdatePasswordForm>
 
                 <div className='flex items-center mt-14 p-1'>
                   <div className='text-[0.8rem]'>Already have an account?</div>

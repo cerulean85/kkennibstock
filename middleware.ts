@@ -6,7 +6,7 @@ export function middleware(req: NextRequest) {
   const pathArr = pathname.split('/');
     
   const pathList = [
-    "images", "maps", "log-in", "sign-up", "update-password"
+    "images", "maps", "log-in", "sign-up", "update-pwd"
   ]
 
   if (pathArr.length < 2) {

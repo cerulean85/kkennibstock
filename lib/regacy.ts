@@ -13,3 +13,6 @@ export enum Page {
 }
 
 export function getLobbyPage() { return Page.Profit; }
+
+export const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
+export const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;

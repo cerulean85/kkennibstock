@@ -1,12 +1,15 @@
 import { MemberService } from "@/services/MemberService";
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import { emailRegex, passwordRegex } from "@/lib/regacy";
 
 export default function SignUpForm() {
 
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 	const [validEmail, setValidEmail] = useState(false);
+	const [showPassword, setShowPassword] = useState(false);
+	const togglePasswordVisibility = () => { setShowPassword(!showPassword); };
 
 	const validate = () => {
 		if (!validEmail) {
@@ -14,7 +17,6 @@ export default function SignUpForm() {
   		return false;
 		}
 
-		const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
 		const isValidPassword = passwordRegex.test(password);
 		if (!isValidPassword) {
   		alert("Please enter a valid password.");
@@ -43,7 +45,6 @@ export default function SignUpForm() {
 	
 
 	useEffect(() => {
-		const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 		const isValidEmail = emailRegex.test(email);
 		setValidEmail(isValidEmail);
 	}, [email])
@@ -70,16 +71,28 @@ export default function SignUpForm() {
 				</div>
 			}
 		
+		<div className="relative mt-2">
 			<input
-				className="w-full mt-2"
-				type="password" 
+				className="w-full pr-12"
+				type={showPassword ? "text" : "password"} 
 				value={password}
 				placeholder="Enter your password"
 				onKeyDown={handleKeyDown} // 엔터 키 이벤트 추가
 				onChange={(e) => setPassword(e.target.value)}
 				required
 			/>
-
+			<button
+				type="button"
+				className="absolute inset-y-0 right-0 flex items-center px-3 text-gray-600 hover:text-gray-800"
+				onClick={togglePasswordVisibility}
+			>
+			{showPassword ? (
+				<Image src="/images/icon/eye-open.svg" alt="eye-open" width={24} height={24} />
+			) : (
+				<Image src="/images/icon/eye-close.svg" alt="eye-close" width={24} height={24} />
+			)}
+			</button>
+		</div>
 						
 			{
 				(0 < password.length && password.length < 8) &&

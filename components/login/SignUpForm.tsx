@@ -1,6 +1,7 @@
 import { MemberService } from "@/services/MemberService";
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import { emailRegex, passwordRegex } from "@/lib/regacy";
 
 export default function SignUpForm() {
 
@@ -14,7 +15,6 @@ export default function SignUpForm() {
   		return false;
 		}
 
-		const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
 		const isValidPassword = passwordRegex.test(password);
 		if (!isValidPassword) {
   		alert("Please enter a valid password.");
@@ -42,8 +42,7 @@ export default function SignUpForm() {
   };
 	
 
-	useEffect(() => {
-		const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+	useEffect(() => {	
 		const isValidEmail = emailRegex.test(email);
 		setValidEmail(isValidEmail);
 	}, [email])

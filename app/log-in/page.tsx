@@ -6,9 +6,9 @@ import Image from 'next/image';
 import { useLocale } from '@/layouts/LocaleContext';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import Loading from '@/components/Loading';
-import GoogleLogInButton from '@/components/google/GoogleLogInButton';
+import GoogleLogInButton from '@/components/login/GoogleLogInButton';
 import EmailLoginButton from '@/components/EmailLoginButton';
-import SignInForm from '@/components/SignInForm';
+import LogInForm from '@/components/login/LogInForm';
 import FindPasswordForm from '@/components/FindPasswordForm';
 import { Page } from '@/lib/domain';
 
@@ -79,7 +79,7 @@ const LoginPage = () => {
                 </div>            
               </div>
             }
-            {currentSubPage == SubPage.LogInEmail && <SignInForm></SignInForm>}            
+            {currentSubPage == SubPage.LogInEmail && <LogInForm></LogInForm>}            
             {currentSubPage == SubPage.UpdatePassword && <FindPasswordForm></FindPasswordForm>}
             {
               currentSubPage !== SubPage.UpdatePassword &&
