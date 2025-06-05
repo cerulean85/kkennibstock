@@ -1,24 +1,33 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { locales, defaultLocale, defaultPage, notfoundPage, noAuthEndpoints } from './lib/domain';
+import { defaultPage, notfoundPage } from './lib/domain';
 
 export function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
   const pathArr = pathname.split('/');
     
-  const pathLocale = pathArr[1];
-  if (pathLocale === 'images' || pathLocale === 'maps') {
+  const pathList = [
+    "images", "maps", "log-in", "sign-up", "update-password"
+  ]
+
+  if (pathArr.length < 2) {
+      return NextResponse.redirect(new URL(`/${defaultPage}`, req.url));    
+  }
+
+  if (pathList.includes(pathArr[1])) {
     return NextResponse.next();
+  } else {
+    return NextResponse.redirect(new URL(`/${notfoundPage}`, req.url));
   }
   
-  const isValidLocale = locales.includes(pathLocale);
+  // const isValidLocale = locales.includes(pathLocale);
 
   // 올바른 로케일인 경우
-  if (isValidLocale) {
+  // if (isValidLocale) {
 
     // 경로가 '/:locale'인 경우 리다이렉트
-    if (pathArr.length === 2) {
-      return NextResponse.redirect(new URL(`/${pathLocale}/${defaultPage}`, req.url));
-    }
+    // if (pathArr.length === 2) {
+    //   return NextResponse.redirect(new URL(`/${pathLocale}/${defaultPage}`, req.url));
+    // }
 
     // const token: (string | undefined) = req.cookies.get('accessToken')?.value;
     // console.log('token: ', token);
@@ -47,20 +56,20 @@ export function middleware(req: NextRequest) {
     //   return response;
     // }
 
-  } else {
+  // } else {
     // 로케일이 없는 경우 기본 로케일로 리다이렉트
-    if (pathLocale === '') {
+    // if (pathLocale === '') {
       // http://xxx.yyy.zzz와 같이 Locale이 없는 도메인으로 접근 시 기본 Locale로 리다이렉트
-      return NextResponse.redirect(new URL(`/${defaultLocale}/${defaultPage}`, req.url));
-    } 
+    //   return NextResponse.redirect(new URL(`/${defaultPage}`, req.url));
+    // } 
 
     // 잘못된 로케일인 경우 '/not-found'로 리다이렉트
-    if (pathLocale !== notfoundPage) {
-      return NextResponse.redirect(new URL(`/${notfoundPage}`, req.url));
-    }
-  }
+    // if (pathLocale !== notfoundPage) {
+    //   return NextResponse.redirect(new URL(`/${notfoundPage}`, req.url));
+    // }
+  // }
 
-  return NextResponse.next();
+  // return NextResponse.next();
 }
 
 // function validateToken(token: string): boolean {

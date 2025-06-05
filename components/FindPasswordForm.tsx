@@ -40,7 +40,6 @@ export default function FindPasswordForm() {
 		<div>
 
 			<div>
-				<div className="flex justify-center font-bold text-xl">Recover your password</div>
 				<div className="mt-2 mb-10 text-sm">Enter the email that you used when you signed up to recover your password. You will receive a password reset link.</div>
 			</div>
 

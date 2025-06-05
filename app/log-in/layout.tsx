@@ -5,7 +5,7 @@ import "@/styles/signin.scss"
 
 import MemberSection from '@/layouts/main_member';
 
-export default async function SigninPageLayout({ children, params }: { children: ReactNode; params: any }) {
+export default async function LoginPageLayout({ children, params }: { children: ReactNode; params: any }) {
   const _p = await params;
 
   return (
