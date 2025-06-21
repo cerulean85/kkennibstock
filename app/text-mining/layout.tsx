@@ -1,4 +1,4 @@
-export default function MetricsLayout({
+export default function TextMiningLayout({
     children,
   }: Readonly<{
     children: React.ReactNode;

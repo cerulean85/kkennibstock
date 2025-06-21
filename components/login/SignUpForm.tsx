@@ -1,36 +1,49 @@
 import { MemberService } from "@/services/MemberService";
 import { useEffect, useState } from "react";
 import Image from "next/image";
-import { emailRegex, passwordRegex } from "@/lib/regacy";
+import { setAllPageLoading } from "@/stores/appConfigSlice";
+import { UseDispatch } from "@/stores/store";
+import { Account, emailRegex, getLobbyPage, nameRegex, Page, passwordRegex } from "@/lib/contant";
 
 export default function SignUpForm() {
 
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 	const [validEmail, setValidEmail] = useState(false);
+	const [validName, setValidName] = useState(true);
+	const [name, setName] = useState("");
 
 	const validate = () => {
-		if (!validEmail) {
+		const isValidName = nameRegex.test(name);
+		if (!isValidName) {
+			alert("Please enter your name. Please use at least 5 characters.");
+			return false;
+		}
+
+		const isValidEmail = emailRegex.test(email);
+		if (!isValidEmail) {
 			alert("Please enter a valid email address.");
-  		return false;
+			return false;
 		}
 
 		const isValidPassword = passwordRegex.test(password);
 		if (!isValidPassword) {
-  		alert("Please enter a valid password.");
+			alert("Please enter a valid password.");
   		return false;
 		}		
 
 		return true;		
 	}
-
+	
+	const dispatch = UseDispatch();
 	const sign = async () => {
 		const authorized: boolean = validate();		
 		if (authorized) {
 			const serv = new MemberService();
-			const isSuccess: boolean = await serv.signUp(email, password, "email");
+			const isSuccess: boolean = await serv.signUp(email, password, Account.EMAIL, name);
 			if (isSuccess) {
-				alert("성공!!")
+				dispatch(setAllPageLoading(true));
+				window.location.href = '/' + Page.LogIn;
 			}
 		}
 	}
@@ -47,10 +60,38 @@ export default function SignUpForm() {
 		setValidEmail(isValidEmail);
 	}, [email])
 
+	useEffect(() => {
+		const isValidName = nameRegex.test(name);
+		setValidName(isValidName);
+	}, [name])
+
 	return (
 		<div>
+
+
 			<input
 				className="w-full"
+				type="text"
+				value={name}
+				onChange={(e) => setName(e.target.value)}
+				placeholder="Enter your name"
+				required
+			/>
+
+			{
+				(name.length > 0 && !validName) && 
+				<div className="flex items-center px-2 pt-2">
+					<div>
+						<Image src="/images/icon/warning-small.png" width={16} height={16} alt="warning-small" />
+					</div>
+					<div className="text-xs ms-2 text-[#E1594C]">
+						Please enter your name (e.g., John Doe) using at least 5 characters.
+					</div>
+				</div>
+			}
+
+			<input
+				className="w-full mt-2"
 				type="text"
 				value={email}
 				onChange={(e) => setEmail(e.target.value)}

@@ -4,7 +4,7 @@ export class BaseService {
 
 		console.trace('Message By BaseService', response);
 		if (!response) {
-			console.log("데이터 호출에 실패하였습니다.");
+			console.log("Failed to fetch data..");
 			return null;
 		}
     
@@ -14,7 +14,7 @@ export class BaseService {
 		}
 
 		if (!response.data) {
-			console.log("데이터 호출에 실패하였습니다.");
+			console.log("Failed to fetch data..");
 			return null;
 		}
 		return response.data;		

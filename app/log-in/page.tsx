@@ -3,14 +3,13 @@ import React from 'react';
 import { useState } from "react";
 import { useRouter  } from 'next/navigation';
 import Image from 'next/image';
-import { useLocale } from '@/layouts/LocaleContext';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import Loading from '@/components/Loading';
 import GoogleLogInButton from '@/components/login/GoogleLogInButton';
 import EmailLoginButton from '@/components/EmailLoginButton';
 import LogInForm from '@/components/login/LogInForm';
 import FindPasswordForm from '@/components/FindPasswordForm';
-import { Page } from '@/lib/domain';
+import { Page } from '@/lib/contant';
 
 const LoginPage = () => {
   
@@ -57,24 +56,23 @@ const LoginPage = () => {
         </div>
 
         <div className="flex justify-center text-2xl mt-20">
-          {!currentSubPage && "Log in"}
-          {currentSubPage == SubPage.UpdatePassword && "Recover your password"}
+          {currentSubPage == SubPage.UpdatePassword ? ("Recover your password") : ("Log in")}
           
         </div>
 
         <div className="flex justify-center mt-5 w-full">
           <div className="w-full p-6">
             {
-              currentSubPage &&
+              !currentSubPage &&
               <div>
                 <div className='mb-2'>
                   <GoogleOAuthProvider clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID ?? ''}>
-                    <GoogleLogInButton name="Sign in with google" actionType="login"/>  
+                    <GoogleLogInButton></GoogleLogInButton>
                   </GoogleOAuthProvider>
                 </div>
                 <div>
                   <EmailLoginButton 
-                    name="Sign in with eamil"
+                    name="Log in with eamil"
                     handler={() => setCurrentSubPage(SubPage.LogInEmail)} />
                 </div>            
               </div>

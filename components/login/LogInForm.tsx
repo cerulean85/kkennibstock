@@ -1,7 +1,7 @@
 import { MemberService } from "@/services/MemberService";
 import { useEffect, useState } from "react";
 import Image from "next/image";
-import { emailRegex, passwordRegex } from "@/lib/regacy";
+import { Account, emailRegex, getLobbyPage, Page, passwordRegex } from "@/lib/contant";
 
 export default function LogInForm() {
 
@@ -24,19 +24,21 @@ export default function LogInForm() {
 		return true;		
 	}
 
-	const sign = () => {
+	const login = async () => {
 		const authorized: boolean = validate();
 		if (authorized) {
-			// onSign(email, password);
+			const result: boolean = await (new MemberService()).logIn(email, password, Account.EMAIL)
+			if (result) {
+				window.location.href = '/' + getLobbyPage();
+			}
 		}
 	}
 
 	const handleKeyDown = async (e: any) => {
 		if (e.key === "Enter") {
-			sign();
+			login();
 		}
-  };
-	
+  };	
 
 	useEffect(() => {
 		const isValidEmail = emailRegex.test(email);
@@ -44,7 +46,7 @@ export default function LogInForm() {
 	}, [email])
 
 	useEffect(() => {
-		const isValidPassword = passwordRegex.test(email);
+		const isValidPassword = passwordRegex.test(password);
 		setValidPassword(isValidPassword);
 	}, [password])	
 
@@ -91,7 +93,7 @@ export default function LogInForm() {
 			}
 
 			<div className="mt-2">
-				<button className="btn-main w-full h-[38px] font-bold text-[1.0rem] tracking-wider" onClick={sign}>Sign In</button>
+				<button className="btn-main w-full h-[38px] font-bold text-[1.0rem] tracking-wider" onClick={login}>Log In</button>
 			</div>
 		</div>
 	)

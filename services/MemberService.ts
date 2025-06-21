@@ -1,63 +1,54 @@
 import { MemberRepository } from "@/repositories/MemberRepository";
+import { BaseService } from "./BaseService";
 
-export class MemberService {
+export class MemberService extends BaseService {
+
+	
 	private repo: MemberRepository;
 
 	constructor() {
+		super();
 		this.repo = new MemberRepository();
 	}
 
+	async sendPasswordResetLink(email: string) {
+		const response: any = await this.repo.sendPasswordResetLink(email);		
+		const result = this.getData(response);
+		return result;
+	}
+
 	async logIn(email: string, password: string, accountType: string) {
-		const result: any = await this.repo.logIn(email, password, accountType);		
-		if (!result) {
-			localStorage.removeItem('accessToken');
-			localStorage.removeItem('refreshToken');
-			localStorage.removeItem('email');
-			localStorage.removeItem('accountType');
+		const response: any = await this.repo.logIn(email, password, accountType);		
+		const resut = this.getData(response);
+		if (!resut) {
+			this.logOut();
 			alert("Login failed.");
 			return false;			
 		}
-		console.log('response ======> ');
-		console.log(result);
-
-		localStorage.setItem('accessToken', result.accessToken);
-		localStorage.setItem('refreshToken', result.refreshToken);			
-		localStorage.setItem('email', result.email);			
-		localStorage.setItem('accountType', result.accountType);			
+		localStorage.setItem('accessToken', resut.accessToken);
+		localStorage.setItem('refreshToken', resut.refreshToken);			
+		localStorage.setItem('email', resut.email);			
+		localStorage.setItem('accountType', resut.accountType);			
+		localStorage.setItem('name', resut.name);		
+		localStorage.setItem('picture', resut.picture);			
+		
 		return true;
 	}
 
 
-async signUp(email: string, password: string, accountType: string) {
-	let result = await this.repo.signUp(email, password, accountType);
-	if (!result) {
-		alert("Your registration was successful.")
-		return false;
+	async signUp(email: string, password: string, accountType: string, name: string, profileImage: string = '') {
+		const result = await this.repo.signUp(email, password, accountType, name, profileImage);
+		return this.getData(result);
 	}
-	return true;
-}
 
-	async logout() {
-		const userSeqIdVar: string | null = localStorage.getItem('userSeqId');
-		const refreshToken: string | null = localStorage.getItem('refreshToken');
-		if (refreshToken && userSeqIdVar && userSeqIdVar !== '') {
-			const userSeqId = Number(userSeqIdVar);			
-			if (userSeqId > 0) {
-				const result = await this.repo.logout(userSeqId, refreshToken);
-				if (result.status.isSuccess && result.data.isSuccess) {
-					localStorage.removeItem('accessToken');
-					localStorage.removeItem('refreshToken');
-					localStorage.removeItem('userSeqId');
-					localStorage.removeItem('isAdmin');
-					return true;
-				} else {
-					alert(result.status.message);
-					return false;
-				}
-			}
-		}
-		alert('로그아웃 중 오류가 발생하였습니다.');
-		return false;
+	async logOut() {
+		localStorage.removeItem('accessToken');
+		localStorage.removeItem('refreshToken');
+		localStorage.removeItem('email');
+		localStorage.removeItem('accountType');
+		localStorage.removeItem('name');
+		localStorage.removeItem('picture');
+		return true;
 	}
 
 	async findUserId(emailOrPhoneNumber: string): Promise<{}> {
@@ -74,6 +65,7 @@ async signUp(email: string, password: string, accountType: string) {
 			}
 		}
 	}
+
 	async findUserInfo(userSeqId: number): Promise<{}> {
 		const result: any = await this.repo.findUserInfo(userSeqId);
 		const status = result.status;
@@ -103,21 +95,6 @@ async signUp(email: string, password: string, accountType: string) {
 				alert('비밀번호가 잘못되었습니다.');
 				return false;
 			}
-		}
-	}
-
-	async updatePwd(userSeqId: number, pwd: string) {
-		try {
-			const response: any = await this.repo.updatePwd(userSeqId, pwd);
-			if (!response.status.isSuccess || !response.data.isSuccess) {
-				alert(response.status.message);		
-				return false;
-			} else {
-				alert(response.data.isSuccess ? '비밀번호가 변경되었습니다.' : '비밀번호 변경에 실패하였습니다.');
-				return response.data.isSuccess;				
-			}
-		} catch {
-			return false;
 		}
 	}
 
@@ -171,6 +148,34 @@ async signUp(email: string, password: string, accountType: string) {
 			alert("Email not found.");
 			return null;
 		}
-		return userInfo.email;
+		return userInfo;
+	}
+
+	async checkResetToken(token: string) {
+		const response: any = await this.repo.checkResetToken(token);
+		const result = this.getData(response);
+		return result;
+	}
+
+	async updatePassword(token: string, password: string) {
+		const response: any = await this.repo.updatePassword(token, password);
+		const result = this.getData(response);
+		return result;
+	}
+
+	async	updateName(email: string, name: string) {
+		const response: any = await this.repo.updateName(email, name);
+		const result = this.getData(response);
+		return result;
+	}
+
+	async sendContactUs(
+		name: string,
+		email: string,
+		message: string
+	) {
+		const response: any = await this.repo.sendContactUs(name, email, message);
+		const result = this.getData(response);
+		return result;
 	}
 }

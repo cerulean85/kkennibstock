@@ -1,6 +1,7 @@
 import { fetchGet, fetchPatch, fetchPost, fetchPut } from "./req"
 
 export class MemberRepository {
+
 	async logIn(email: string, password: string, accountType: string): Promise<any[]> {
 		const res: any = await fetchPost('member/log-in', {
 			'email': email,
@@ -10,11 +11,20 @@ export class MemberRepository {
 		return res;
 	}
 
-	async signUp(email: string, password: string, accountType: string) {
+	async signUp(email: string, password: string, accountType: string, name: string, profileImage: string = '') {
 		const res: any = await fetchPost('member/sign-up', {
 			'email': email,
       'password': password,      
-			"accountType": accountType
+			"accountType": accountType,
+			"name": name,
+			"picture": profileImage
+		});
+		return res;
+	}
+
+	async sendPasswordResetLink(email: string): Promise<any> {
+		const res: any = await fetchPost('member/send-password-reset-email', {
+			'email': email
 		});
 		return res;
 	}
@@ -56,13 +66,6 @@ export class MemberRepository {
 		return res;
 	}
 
-	async updatePwd(userSeqId: number, pwd: string): Promise<any[]> {
-		const res: any = await fetchPatch(`users/${userSeqId}/update-password`, {
-			'password': pwd
-		});
-		return res;
-	}
-
 	async getUserList(startDate: string, endDate: string, keyword: string, page: number, limit: number) {
 		const res: any = await fetchGet(`users?startDate=${startDate}&endDate=${endDate}&keyword=${keyword}&page=${page}&limit=${limit}`, 'getUserList');
 		return res;
@@ -76,6 +79,40 @@ export class MemberRepository {
 	async checkDuplicedUserId(userId: string): Promise<any> {
 		// alert(`users/check?userId=${userId}`)
 		const res: any = await fetchGet(`users/check?userId=${userId}`, 'checkDuplicedUserId');
+		return res;
+	}
+
+	async checkResetToken(token: string): Promise<any> {
+		const res: any = await fetchGet(`member/check-reset-token?token=${token}`, 'checkResetToken');
+		return res;
+	}
+
+	async updatePassword(token: string, password: string): Promise<any> {
+		const res: any = await fetchPut(`member/update-password`, {
+			'token': token,
+			'password': password
+		});
+		return res;
+	}
+
+	async updateName(email: string, name: string): Promise<any> {
+		const res: any = await fetchPut(`member/update-name`, {
+			'email': email,
+			'name': name
+		});
+		return res;
+	}
+
+	async sendContactUs(
+		name: string,
+		email: string,
+		message: string
+	): Promise<any> {
+		const res: any = await fetchPost(`member/contact-us`, {
+			'name': name,
+			'email': email,
+			'message': message
+		});
 		return res;
 	}
 }

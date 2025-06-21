@@ -1,3 +1,5 @@
+import { Page } from "./contant";
+
 // lib/i18n.ts
   export function getEndpointFromURL(url: string) {
     const urlArr = url.split('/');
@@ -13,5 +15,4 @@
   
   export const locales = ['en', 'ko']; // 지원하는 언어 목록
   export const defaultPage = 'profit';
-  export const notfoundPage = 'notfound';
-  export const noAuthEndpoints = ['signup', 'find_acc', notfoundPage];
+  export const noAuthEndpoints = [Page.LogIn, Page.SignUp, Page.Notfound];

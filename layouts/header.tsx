@@ -19,9 +19,6 @@ const CommonHeader = () => {
 
   return (
     <header>
-      <div className="w-full h-full flex justify-between items-center ms-3 pb-1">
-        <img width={130} src="/images/icon/logo_title.svg" />
-      </div>
 
       {/* <div className="flex justify-between" >
         

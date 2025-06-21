@@ -5,73 +5,68 @@ import axios from 'axios';
 import { validateToken } from '@/lib/utils';
 import { useRouter, usePathname } from 'next/navigation';
 import { noAuthEndpoints, getEndpointFromURL } from "@/lib/domain";
+import { getLobbyPage, Page } from "@/lib/contant";
+import { MemberService } from "@/services/MemberService";
 
+// Schedule automatic token refresh before expiration
 function scheduleTokenRefresh(accessToken: string, refreshToken: string, redirectPath: string) {
   try {
     const decoded: any = jwtDecode(accessToken);
-    const currentTime = Math.floor(Date.now() / 1000); // 현재 시간 (초 단위)
-    const timeUntilExpiry = decoded.exp - currentTime; // 만료까지 남은 시간 (초 단위)
-
-    // 만료 5분 전에만 갱신 요청 스케줄링
-    // console.log("scheduleTokenRefresh 실행");
-    // console.log(timeUntilExpiry)
-    const refreshTime = timeUntilExpiry - 20; // 300초 = 5분
-
+    const currentTime = Math.floor(Date.now() / 1000);
+    const timeUntilExpiry = decoded.exp - currentTime;
+    const refreshTime = timeUntilExpiry - 20; // 20 seconds before expiration
     if (refreshTime > 0) {
-      // console.log("setTimeout 등록 " + refreshTime );
       setTimeout(async () => {
         try {
-          // console.log("refreshToken => ");
-          // console.log(refreshToken)
-          const response = await axios.post('users/refresh', { 'refreshToken': refreshToken });
-          // console.log("accessToken => ");
-          // console.log(response.data)
+          const response = await axios.post('users/refresh', { refreshToken });
           const newAccessToken = response.data.accessToken;
           localStorage.setItem('accessToken', newAccessToken);
-          scheduleTokenRefresh(newAccessToken, refreshToken, redirectPath); // 새 토큰으로 다시 스케줄링
+          scheduleTokenRefresh(newAccessToken, refreshToken, redirectPath);
         } catch (error) {
-          console.error('토큰 갱신 실패:', error);
-          // 로그아웃 처리 또는 로그인 페이지로 리다이렉트
+          console.error('Token refresh failed:', error);
           window.location.href = redirectPath;
         }
-      }, refreshTime * 1000); // 밀리초 단위로 변환
+      }, refreshTime * 1000);
     }
   } catch (error) {
-    console.error('토큰 디코딩 실패:', error);
+    console.error('Token decoding failed:', error);
   }
 }
 
-export default function TokenManager({ redirectPath }: { redirectPath: string }) {
-
+export default function TokenManager() {
+  const redirectPath = '/' + Page.LogIn;
   const router = useRouter();
   const pathname = usePathname();
-  const endpoint = getEndpointFromURL(pathname);
-  if(noAuthEndpoints.includes(endpoint)) return;
 
   useEffect(() => {
+    const accessToken = localStorage.getItem("accessToken");
+    const refreshToken = localStorage.getItem("refreshToken");
+    // If on a no-auth page and already logged in, redirect to lobby
+    if (pathname){
 
-    
-    // 액세스토큰 체크
-    // const accessToken = localStorage.getItem("accessToken");
-    // console.log("accessToken")
-    // console.log(accessToken)
-    // const refreshToken = localStorage.getItem("refreshToken");
-    // if (!accessToken || accessToken.length == 0) {
-    //   router.push(redirectPath); 
-    //   return;
-    // }
+      const pageName = getEndpointFromURL(pathname);
+      if (pageName === Page.UpdatePassword) {      
+        return;
+      }
 
-    // const isValid = validateToken(accessToken);
-    // if (!isValid) {
-    //   router.push(redirectPath); 
-    //   return;
-    // }
-  
-    // if (accessToken && refreshToken) {
-    //   scheduleTokenRefresh(accessToken, refreshToken, redirectPath);
-    // }
+      if (noAuthEndpoints.includes(pageName as Page)) {
+        if (accessToken && validateToken(accessToken)) {
+          router.push(getLobbyPage());
+        }
+        return;
+      }    
+    }
+    // If no token or token is invalid, logout and redirect to login page
+    if (!accessToken || !validateToken(accessToken)) {
+      new MemberService().logOut();
+      router.push(redirectPath);
+      return;
+    }
+    // Schedule token refresh
+    if (accessToken && refreshToken) {
+      scheduleTokenRefresh(accessToken, refreshToken, redirectPath);
+    }
+  }, [pathname]);
 
-  }, []);
-
-  return null; // UI를 렌더링하지 않음
+  return null;
 }

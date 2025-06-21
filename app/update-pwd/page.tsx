@@ -1,38 +1,42 @@
 'use client'
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useState } from "react";
-import { useRouter  } from 'next/navigation';
+import { useRouter, useSearchParams } from "next/navigation";
 import { MemberService } from '@/services/MemberService';
 import Image from 'next/image';
-import { useLocale } from '@/layouts/LocaleContext';
-import { GoogleOAuthProvider } from '@react-oauth/google';
 import Loading from '@/components/Loading';
-import GoogleLogInButton from '@/components/login/GoogleLogInButton';
-import EmailLoginButton from '@/components/EmailLoginButton';
-import SignUpForm from '@/components/login/SignUpForm';
-import { Account, Page } from '@/lib/regacy';
+import { Account, Page } from '@/lib/contant';
 import UpdatePasswordForm from '@/components/login/UpdatePasswordForm';
 
 
+
 const UpdatePasswordPage = () => {
-  
-  const [loading, setLoading] = useState(false);
-
   const router = useRouter();
-  const loginUser = async (email: string, password: string) => {
-    alert("Success!!")
-    // e.preventDefault();
+  const searchParams = useSearchParams();
+  const [token, setToken] = useState<string>('');
 
-    // const serv = new MemberService();
-    // const result: any = await serv.signIn(userId, password);
-    // if (result) {
-    //   setLoading(true);
-    //   const isAdmin = localStorage.getItem("isAdmin") === 'Y';
-    //   router.push(`/${locale}/${isAdmin ? 'adm/user_list' : 'ops/stat_fwh'}`); 
-    // } else {
-    //   alert("입력하신 아이디 또는 비밀번호를 확인해주세요.");
-    // }
-  };
+  useEffect(() => {
+    const paramToken = searchParams.get("token");
+    if (!paramToken) {
+      router.replace("/404");
+      return;
+    }
+    (new MemberService()).checkResetToken(paramToken)
+      .then((isValid: boolean) => {
+        if (!isValid) {
+          alert("Invalid or expired token.");
+          router.replace("/404");
+        }
+        setToken(paramToken);
+      })
+      .catch((error: any) => {
+        console.error("Error checking reset token:", error);
+        alert("Invalid or expired token.");
+        router.replace("/404");
+      });
+  }, [router, searchParams]);
+
+  const [loading, setLoading] = useState(false);
 
   const [accountType, setAccountType] = useState<Account | null>(null);
   const moveLogin = async (e: any) => {
@@ -59,19 +63,18 @@ const UpdatePasswordPage = () => {
       }
       </div>
 
-
       <div className='mt-8'>
         <div className='flex justify-center items-center'>
           <Image width={220} height={100} className="logo" src="/images/logo/corp_logo_with_name.svg" alt="Logo" />
         </div>
         <div className="flex justify-center text-2xl mt-20">
-          Create an account
+          Update password
         </div>
 
         <div className="flex justify-center mt-5 w-full">
           <div className="w-full p-6">
           
-            <UpdatePasswordForm></UpdatePasswordForm>
+            <UpdatePasswordForm token={token}></UpdatePasswordForm>
 
                 <div className='flex items-center mt-14 p-1'>
                   <div className='text-[0.8rem]'>Already have an account?</div>

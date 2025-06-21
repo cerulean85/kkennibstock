@@ -214,3 +214,10 @@ input {
     box-shadow: 0 0 0 0.2rem rgba(13,110,253,.25);
   }
 }
+
+.custom-scrollbar {
+  scrollbar-width: thin;              /* Firefox */
+  scrollbar-color: #bbb white;      /* Firefox */
+  padding-top: 2px;
+  padding-bottom: 12px;
+}

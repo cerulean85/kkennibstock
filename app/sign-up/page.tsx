@@ -4,11 +4,11 @@ import { useState } from "react";
 import { useRouter  } from 'next/navigation';
 import Image from 'next/image';
 import { GoogleOAuthProvider } from '@react-oauth/google';
-import GoogleLogInButton from '@/components/login/GoogleLogInButton';
 import EmailLoginButton from '@/components/EmailLoginButton';
 import SignUpForm from '@/components/login/SignUpForm';
-import { Page } from '@/lib/regacy';
-import { Account } from '@/lib/regacy';
+import { Page } from '@/lib/contant';
+import { Account } from '@/lib/contant';
+import GoogleSignUpButton from '@/components/login/GoogleSignUpButton';
 
 const SignInPage = () => {    
   const router = useRouter();

@@ -1,6 +1,7 @@
 import { MemberService } from "@/services/MemberService";
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import { Page } from "@/lib/contant";
 
 export default function FindPasswordForm() {
 
@@ -16,10 +17,20 @@ export default function FindPasswordForm() {
 		return true;
 	}
 
-	const sendResetLink = () => {
+	const sendResetLink = async () => {
 		const authorized: boolean = validate();
 		if (authorized) {
-			// onSign(email, password);
+			(new MemberService()).sendPasswordResetLink(email).then((result: any) => {
+				if (result) {
+					alert("A password reset link has been sent to your email address.");
+					setEmail("");
+					window.location.href = '/' + Page.LogIn;
+				}
+			}).catch((error: any) => {	
+			
+				console.error("Error sending reset link:", error);
+				alert("Unable to send a password reset link to the email you entered.");
+			})
 		}
 	}
 

@@ -6,7 +6,6 @@ import { createProfit, ProfitProp, updatePriceViewDataByCurrency } from '@/prope
 import { updateStockListPriceByCurrency, StockProp } from '@/properties/Stock';
 import ToggleSwitch from '@/components/ToggleSwitch';
 import styled from 'styled-components';
-import { setPriority } from 'os';
 
 const TextInput = styled.input`
   cursor: pointer;

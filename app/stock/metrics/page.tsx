@@ -337,19 +337,6 @@ const MetricsPage = () => {
     setLastUs10yValue(lastValue.value);        
   };
 
-
-  const locale = useLocale();
-  const dispatch = UseDispatch();
-  useEffect(()=> {
-    const accessToken: string | null = localStorage.getItem("accessToken");
-    if (!accessToken) {
-      alert("You have to sign in first.")
-			window.location.href = `/${locale}/signin`;
-    }  
-    fetchMetricsData();
-    dispatch(setAllPageLoading(false));    
-  }, [])
-
   return (
     <div>
       <div className="flex flex-col md:flex-row">

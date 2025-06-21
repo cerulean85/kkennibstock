@@ -1,4 +1,4 @@
-export default function MetricsLayout({
+export default function StockLayout({
     children,
   }: Readonly<{
     children: React.ReactNode;
