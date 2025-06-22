@@ -33,7 +33,7 @@ export default function GoogleSignUpButton() {
       onClick={() => signup()}
       className="w-full h-[40px] flex items-center justify-center border border-gray-300 rounded bg-white text-sm font-medium shadow hover:shadow-md">
       <Image
-        src="/images/logo/g-logo.png"
+        src="/images/symbol/google.png"
         alt="g-logo"
         width={20}
         height={20}

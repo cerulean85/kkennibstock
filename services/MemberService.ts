@@ -30,7 +30,8 @@ export class MemberService extends BaseService {
 		localStorage.setItem('email', resut.email);			
 		localStorage.setItem('accountType', resut.accountType);			
 		localStorage.setItem('name', resut.name);		
-		localStorage.setItem('picture', resut.picture);			
+		localStorage.setItem('picture', resut.picture);
+		localStorage.setItem('no', resut.no);			
 		
 		return true;
 	}
@@ -48,6 +49,7 @@ export class MemberService extends BaseService {
 		localStorage.removeItem('accountType');
 		localStorage.removeItem('name');
 		localStorage.removeItem('picture');
+		localStorage.removeItem('no');		
 		return true;
 	}
 

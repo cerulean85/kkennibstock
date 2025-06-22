@@ -1,13 +1,13 @@
 import React from "react";
-import IconButton from "./button/IconButton";
+import IconButton from "../button/IconButton";
 import { MemberService } from "@/services/MemberService";
 
-interface ContactUsModalProps {
+interface ContactUsPopupProps {
   open: boolean;
   onClose: () => void;
 }
 
-const ContactUsModal: React.FC<ContactUsModalProps> = ({ open, onClose }) => {
+const ContactUsPopup: React.FC<ContactUsPopupProps> = ({ open, onClose }) => {
   if (!open) return null;
 
 
@@ -102,4 +102,4 @@ const ContactUsModal: React.FC<ContactUsModalProps> = ({ open, onClose }) => {
   );
 };
 
-export default ContactUsModal;
+export default ContactUsPopup;

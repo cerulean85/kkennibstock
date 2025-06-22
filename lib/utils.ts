@@ -305,3 +305,9 @@ export function aggregateByMonth(
     cumulativeCount: val.lastCumulative,
   }));
 }
+
+// 문자열(yyyy-mm-dd)을 Date 객체로 변환하는 함수
+export function parseDateString(dateStr: string): Date {
+  const [year, month, day] = dateStr.split('-').map(Number);
+  return new Date(year, month - 1, day);
+}  

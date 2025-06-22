@@ -9,8 +9,9 @@ import { setAllPageLoading, setCurrentMenu, setCurrentPage } from "@/stores/appC
 import { Menu, Page } from "@/lib/contant";
 import IconButton from "@/components/button/IconButton";
 import ProfileComponent from "./ProfileComponent";
-import HelpModal from "@/components/HelpModal";
-import ContactUsModal from "./ContactUsModal";
+import HelpPopup from "./modal/HelpPopup";
+import ContactUsPopup from "./modal/ContactUsPopup";
+import AddNewWorkPopup from "./modal/AddNewWorkPopup";
 
 type IconTextButtonProps = {
   releasedIconSrc: string;
@@ -106,6 +107,7 @@ export default function ClientRootLayout({
   const [pageLoading, setPageLoading] = useState(false);
   const [helpOpen, setHelpOpen] = useState(false);
   const [contactUsOpen, setContactUsOpen] = useState(false);
+  const [addNewWorkOpen, setAddNewWorkOpen] = useState(false);
 
 
   const menuPageSkeleton: { [key: string]: any } = {
@@ -185,8 +187,9 @@ export default function ClientRootLayout({
   return (
     <div className="flex flex-col min-h-screen mx-auto">
       <TokenManager />
-      <HelpModal open={helpOpen} onClose={() => setHelpOpen(false)} />
-      <ContactUsModal open={contactUsOpen} onClose={() => setContactUsOpen(false)} />
+      <HelpPopup open={helpOpen} onClose={() => setHelpOpen(false)} />
+      <ContactUsPopup open={contactUsOpen} onClose={() => setContactUsOpen(false)} />
+      <AddNewWorkPopup open={addNewWorkOpen} onClose={() => setAddNewWorkOpen(false)} />  
       {allPageLoading ? (
         <div className="flex flex-col items-center justify-center min-h-screen">
           <Loading />
@@ -230,7 +233,6 @@ export default function ClientRootLayout({
               </button>
 
               <div className="hidden h-full md:flex items-center space-x-6">
-                
                 {
                   Object.keys(menuPageSkeleton).map((menuKey: string) => {
                     const menu = menuPageSkeleton[menuKey];
@@ -327,6 +329,15 @@ export default function ClientRootLayout({
             <aside className="hidden sm:block w-[210px] h-full">
               <div className="w-full h-[calc(100%-200px)] border-r border-gray-200 pb-1">
                 <div className="w-full h-full overflow-y-scroll custom-scrollbar px-1 space-y-1">
+
+                  {
+                    currentMenu == Menu.TextMining &&
+                    <div className="px-2 py-1">
+                      <button className="w-full bg-blue-500 text-white px-4 py-1 rounded hover:bg-blue-600 transition" onClick={() => setAddNewWorkOpen(true)}>
+                        <span className="text-sm font-normal">+ Add New Work</span>
+                      </button>                  
+                    </div>
+                  }
                   {
                     pageObject && 
                     Object.keys(pageObject).map((pageKey: string) => {

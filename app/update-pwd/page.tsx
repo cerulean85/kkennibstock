@@ -65,7 +65,7 @@ const UpdatePasswordPage = () => {
 
       <div className='mt-8'>
         <div className='flex justify-center items-center'>
-          <Image width={220} height={100} className="logo" src="/images/logo/corp_logo_with_name.svg" alt="Logo" />
+          <Image width={220} height={100} className="logo" src="/images/symbol/corp_logo_with_name.svg" alt="Logo" />
         </div>
         <div className="flex justify-center text-2xl mt-20">
           Update password

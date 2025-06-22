@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import IconButton from "./button/IconButton";
+import IconButton from "../button/IconButton";
 
-interface HelpModalProps {
+interface HelpPopupProps {
   open: boolean;
   onClose: () => void;
 }
@@ -13,7 +13,7 @@ const helpPages = [
   { key: "contact", label: "Contact" },
 ];
 
-const HelpModal: React.FC<HelpModalProps> = ({ open, onClose }) => {
+const HelpPopup: React.FC<HelpPopupProps> = ({ open, onClose }) => {
   const [selectedPage, setSelectedPage] = useState("intro");
   if (!open) return null;
 
@@ -90,4 +90,4 @@ const HelpModal: React.FC<HelpModalProps> = ({ open, onClose }) => {
   );
 };
 
-export default HelpModal;
+export default HelpPopup;

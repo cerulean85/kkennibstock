@@ -26,6 +26,22 @@ export enum Page {
 	Notfound = "notfound",
 }
 
+export enum PipeTaskState {
+  PREPARING = "preparing",
+  PENDING = "pending",
+  IN_PROGRESS = "progress",
+  COMPLETED = "completed"
+}
+
+export enum PipeTaskStatus {
+    SEARCH = "search",
+    CLEAN = "clean",
+    FREQUENCY = "frequency",
+    TFIDF = "tfidf",
+    CONCOR = "concor"
+}
+
+
 export function getLobbyPage() { 
 	// alert("getLobbyPage called");
 	return Menu.Stock + '/' + Page.StockProfit;
