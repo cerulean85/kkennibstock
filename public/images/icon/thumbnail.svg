@@ -5,8 +5,8 @@
       .cls-1 {
         fill: #fff;
         stroke: #ccc;
-        stroke-miterlimit: 10;
-        stroke-width: 3px;
+        strokeMiterlimit: 10;
+        strokeWidth: 3px;
       }
 
       .cls-2 {

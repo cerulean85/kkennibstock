@@ -1,12 +1,12 @@
-"use client"
+"use client";
 // import { usePathname  } from 'next/navigation';
 // import { useSelector, useDispatch } from 'react-redux';
 // import { RootState, AppDispatch } from '@/stores/store';
 
-// import { 
+// import {
 //   setIsSpreadMainMenu
 //  } from '@/stores/appConfigSlice';
-// import { 
+// import {
 //   getMenunameFromURL
 //  } from '@/lib/domain';
 //  import Image from "next/image";
@@ -19,7 +19,6 @@ const CommonHeader = () => {
 
   return (
     <header>
-
       {/* <div className="flex justify-between" >
         
         <div className="flex current-dir">
@@ -37,7 +36,7 @@ const CommonHeader = () => {
         </div>
       </div> */}
     </header>
-  )
-}
+  );
+};
 
-export default CommonHeader
+export default CommonHeader;

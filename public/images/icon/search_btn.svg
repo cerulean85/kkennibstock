@@ -9,13 +9,13 @@
 
       .st0, .st1 {
         stroke: #333;
-        stroke-miterlimit: 10;
-        stroke-width: 3px;
+        strokeMiterlimit: 10;
+        strokeWidth: 3px;
       }
 
       .st1 {
         fill: none;
-        stroke-linecap: round;
+        strokeLinecap: round;
       }
     </style>
   </defs>

@@ -1,8 +1,8 @@
-'use client'
-import React, { useState, useEffect } from 'react';
-import Image from 'next/image';
-import { nameRegex } from '@/lib/contant';
-import { MemberService } from '@/services/MemberService';
+"use client";
+import React, { useState, useEffect } from "react";
+import Image from "next/image";
+import { nameRegex } from "@/lib/contant";
+import { MemberService } from "@/services/MemberService";
 
 const ProfilePage = () => {
   const [name, setName] = useState("");
@@ -10,9 +10,9 @@ const ProfilePage = () => {
   const [email, setEmail] = useState("");
 
   useEffect(() => {
-    const _name = localStorage.getItem('name');
+    const _name = localStorage.getItem("name");
     if (_name) setName(_name);
-    const _email = localStorage.getItem('email');
+    const _email = localStorage.getItem("email");
     if (_email) setEmail(_email);
   }, []);
 
@@ -25,7 +25,7 @@ const ProfilePage = () => {
       alert("Please enter your name.");
       return;
     }
-    localStorage.setItem('name', name);
+    localStorage.setItem("name", name);
     const result = await new MemberService().updateName(email, name);
     if (result) {
       alert("Profile updated successfully!");
@@ -40,15 +40,11 @@ const ProfilePage = () => {
 
   return (
     <div>
-      <div className="text-xl font-medium text-zinc-950 border-b border-zinc-200 pb-2 mb-4">
-        Profile
-      </div>
+      <div className="text-xl font-medium text-zinc-950 border-b border-zinc-200 pb-2 mb-4">Profile</div>
       <div className="p-3">
         <div>
           <div className="text-sm font-medium text-zinc-950 mb-1 px-1">Name</div>
-          <div className="text-xs text-zinc-600 mb-2 px-1">
-            The name associated with your account.
-          </div>
+          <div className="text-xs text-zinc-600 mb-2 px-1">The name associated with your account.</div>
           <input
             type="text"
             value={name}
@@ -68,9 +64,7 @@ const ProfilePage = () => {
         </div>
         <div className="mt-4">
           <div className="text-sm font-medium text-zinc-950 mb-1 px-1">Email address</div>
-          <div className="text-xs text-zinc-600 mb-2 px-1">
-            The email address associated with your account.
-          </div>
+          <div className="text-xs text-zinc-600 mb-2 px-1">The email address associated with your account.</div>
           <input
             type="text"
             value={email}

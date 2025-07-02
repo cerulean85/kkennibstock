@@ -1,9 +1,9 @@
 "use client";
 import { useEffect } from "react";
-import { jwtDecode } from 'jwt-decode';
-import axios from 'axios';
-import { validateToken } from '@/lib/utils';
-import { useRouter, usePathname } from 'next/navigation';
+import { jwtDecode } from "jwt-decode";
+import axios from "axios";
+import { validateToken } from "@/lib/utils";
+import { useRouter, usePathname } from "next/navigation";
 import { noAuthEndpoints, getEndpointFromURL } from "@/lib/domain";
 import { getLobbyPage, Page } from "@/lib/contant";
 import { MemberService } from "@/services/MemberService";
@@ -18,23 +18,23 @@ function scheduleTokenRefresh(accessToken: string, refreshToken: string, redirec
     if (refreshTime > 0) {
       setTimeout(async () => {
         try {
-          const response = await axios.post('users/refresh', { refreshToken });
+          const response = await axios.post("users/refresh", { refreshToken });
           const newAccessToken = response.data.accessToken;
-          localStorage.setItem('accessToken', newAccessToken);
+          localStorage.setItem("accessToken", newAccessToken);
           scheduleTokenRefresh(newAccessToken, refreshToken, redirectPath);
         } catch (error) {
-          console.error('Token refresh failed:', error);
+          console.error("Token refresh failed:", error);
           window.location.href = redirectPath;
         }
       }, refreshTime * 1000);
     }
   } catch (error) {
-    console.error('Token decoding failed:', error);
+    console.error("Token decoding failed:", error);
   }
 }
 
 export default function TokenManager() {
-  const redirectPath = '/' + Page.LogIn;
+  const redirectPath = "/" + Page.LogIn;
   const router = useRouter();
   const pathname = usePathname();
 
@@ -42,10 +42,9 @@ export default function TokenManager() {
     const accessToken = localStorage.getItem("accessToken");
     const refreshToken = localStorage.getItem("refreshToken");
     // If on a no-auth page and already logged in, redirect to lobby
-    if (pathname){
-
+    if (pathname) {
       const pageName = getEndpointFromURL(pathname);
-      if (pageName === Page.UpdatePassword) {      
+      if (pageName === Page.UpdatePassword) {
         return;
       }
 
@@ -54,7 +53,7 @@ export default function TokenManager() {
           router.push(getLobbyPage());
         }
         return;
-      }    
+      }
     }
     // If no token or token is invalid, logout and redirect to login page
     if (!accessToken || !validateToken(accessToken)) {

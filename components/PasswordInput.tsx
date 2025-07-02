@@ -17,7 +17,7 @@ const PasswordInput = ({
   required = false,
 }: PasswordInputProps) => {
   const [showPassword, setShowPassword] = useState(false);
-  const togglePasswordVisibility = () => setShowPassword((v) => !v);
+  const togglePasswordVisibility = () => setShowPassword(v => !v);
 
   return (
     <div className="relative">

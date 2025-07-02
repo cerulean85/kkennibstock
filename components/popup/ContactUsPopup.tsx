@@ -10,14 +10,13 @@ interface ContactUsPopupProps {
 const ContactUsPopup: React.FC<ContactUsPopupProps> = ({ open, onClose }) => {
   if (!open) return null;
 
-
   const sendMessage = async (name: string, email: string, message: string) => {
-    const result = await (new MemberService()).sendContactUs(name, email, message);
+    const result = await new MemberService().sendContactUs(name, email, message);
     if (result) {
       alert("Your message has been sent successfully. We will get back to you soon.");
       onClose();
     }
-  }
+  };
 
   // Add state for form fields
   const [name, setName] = React.useState("");
@@ -29,27 +28,29 @@ const ContactUsPopup: React.FC<ContactUsPopupProps> = ({ open, onClose }) => {
       <div className="bg-white rounded-lg shadow-lg w-full max-w-2xl max-h-[95vh] min-h-[600px] overflow-hidden p-8 relative">
         {/* Title and Close Button Row */}
         <div className="flex items-center justify-between mb-4 pr-8" style={{ minHeight: 32 }}>
-          <h2 className="text-2xl font-bold flex items-center h-8 m-0 p-0" style={{ lineHeight: '32px', height: 32 }}>Contact Us</h2>
+          <h2 className="text-2xl font-bold flex items-center h-8 m-0 p-0" style={{ lineHeight: "32px", height: 32 }}>
+            Contact Us
+          </h2>
           <div className="absolute top-2 right-2 w-8 h-8 flex items-center justify-center bg-transparent border-none cursor-pointer">
-            <IconButton
-              imageSrc="/images/icon/close.svg"
-              width={16}
-              height={16}
-              onClick={onClose}
-            />
+            <IconButton imageSrc="/images/icon/close.svg" width={16} height={16} onClick={onClose} />
           </div>
         </div>
         {/* Contact form content */}
-        <div className="prose max-w-none overflow-y-auto custom-scrollbar pr-8" style={{ maxHeight: '70vh', minHeight: '350px' }}>
+        <div
+          className="prose max-w-none overflow-y-auto custom-scrollbar pr-8"
+          style={{ maxHeight: "70vh", minHeight: "350px" }}
+        >
           <form
             className="space-y-6"
-            onSubmit={(e) => {
+            onSubmit={e => {
               e.preventDefault();
               sendMessage(name, email, message);
             }}
           >
             <div>
-              <label htmlFor="name" className="block font-medium mb-1">Name</label>
+              <label htmlFor="name" className="block font-medium mb-1">
+                Name
+              </label>
               <input
                 id="name"
                 name="name"
@@ -62,7 +63,9 @@ const ContactUsPopup: React.FC<ContactUsPopupProps> = ({ open, onClose }) => {
               />
             </div>
             <div>
-              <label htmlFor="email" className="block font-medium mb-1">Email</label>
+              <label htmlFor="email" className="block font-medium mb-1">
+                Email
+              </label>
               <input
                 id="email"
                 name="email"
@@ -75,7 +78,9 @@ const ContactUsPopup: React.FC<ContactUsPopupProps> = ({ open, onClose }) => {
               />
             </div>
             <div>
-              <label htmlFor="message" className="block font-medium mb-1">Message</label>
+              <label htmlFor="message" className="block font-medium mb-1">
+                Message
+              </label>
               <textarea
                 id="message"
                 name="message"

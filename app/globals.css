@@ -5,24 +5,24 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
-  --black-night: #1A1A1A;
-  --black-zet: #0A0A0A;
+  --black-night: #1a1a1a;
+  --black-zet: #0a0a0a;
   --gray-coll: #adb5bd;
   --gray-light: #dee2e6;
-  --primary-color: #0A0A0A;
-  --interaction-color: #1A1A1A;
-  --bg-header-color: #1A1A1A;
-  --bg-footer-color: #1A1A1A;
-  --bg-nav-color: #0A0A0A;
-  --bg-table-header-color: #1A1A1A;
+  --primary-color: #0a0a0a;
+  --interaction-color: #1a1a1a;
+  --bg-header-color: #1a1a1a;
+  --bg-footer-color: #1a1a1a;
+  --bg-nav-color: #0a0a0a;
+  --bg-table-header-color: #1a1a1a;
   --bg-table-border-color: #adb5bd;
   --header-height: 52px;
   --footer-height: 28px;
   --nav-width: 220px;
-  --text-color: #0A0A0A;
+  --text-color: #0a0a0a;
   --btn-main-color: #333333;
   --btn-sub-color: #555555;
-  --btn-link-color: #336AEA;
+  --btn-link-color: #336aea;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -33,83 +33,83 @@
 }
 
 @font-face {
-  font-family: 'Noto Sans KR';
-  src: url('/fonts/NotoSansKR-Thin.ttf') format('truetype');
+  font-family: "Noto Sans KR";
+  src: url("/fonts/NotoSansKR-Thin.ttf") format("truetype");
   font-weight: 100;
   font-style: normal;
 }
 
 @font-face {
-  font-family: 'Noto Sans KR';
-  src: url('/fonts/NotoSansKR-ExtraLight.ttf') format('truetype');
+  font-family: "Noto Sans KR";
+  src: url("/fonts/NotoSansKR-ExtraLight.ttf") format("truetype");
   font-weight: 200;
   font-style: normal;
 }
 
 @font-face {
-  font-family: 'Noto Sans KR';
-  src: url('/fonts/NotoSansKR-Light.ttf') format('truetype');
+  font-family: "Noto Sans KR";
+  src: url("/fonts/NotoSansKR-Light.ttf") format("truetype");
   font-weight: 300;
   font-style: normal;
 }
 
 @font-face {
-  font-family: 'Noto Sans KR';
-  src: url('/fonts/NotoSansKR-Regular.ttf') format('truetype');
+  font-family: "Noto Sans KR";
+  src: url("/fonts/NotoSansKR-Regular.ttf") format("truetype");
   font-weight: 400;
   font-style: normal;
 }
 
 @font-face {
-  font-family: 'Noto Sans KR';
-  src: url('/fonts/NotoSansKR-Medium.ttf') format('truetype');
+  font-family: "Noto Sans KR";
+  src: url("/fonts/NotoSansKR-Medium.ttf") format("truetype");
   font-weight: 500;
   font-style: normal;
 }
 
 @font-face {
-  font-family: 'Noto Sans KR';
-  src: url('/fonts/NotoSansKR-SemiBold.ttf') format('truetype');
+  font-family: "Noto Sans KR";
+  src: url("/fonts/NotoSansKR-SemiBold.ttf") format("truetype");
   font-weight: 600;
   font-style: normal;
 }
 
 @font-face {
-  font-family: 'Noto Sans KR';
-  src: url('/fonts/NotoSansKR-Bold.ttf') format('truetype');
+  font-family: "Noto Sans KR";
+  src: url("/fonts/NotoSansKR-Bold.ttf") format("truetype");
   font-weight: 700;
   font-style: normal;
 }
 
 @font-face {
-  font-family: 'Noto Sans KR';
-  src: url('/fonts/NotoSansKR-ExtraBold.ttf') format('truetype');
+  font-family: "Noto Sans KR";
+  src: url("/fonts/NotoSansKR-ExtraBold.ttf") format("truetype");
   font-weight: 800;
   font-style: normal;
 }
 
 @font-face {
-  font-family: 'Noto Sans KR';
-  src: url('/fonts/NotoSansKR-Black.ttf') format('truetype');
+  font-family: "Noto Sans KR";
+  src: url("/fonts/NotoSansKR-Black.ttf") format("truetype");
   font-weight: 900;
   font-style: normal;
 }
 
 @font-face {
-  font-family: 'Roboto';
-  src: url('/fonts/Roboto-Medium.ttf') format('truetype');
+  font-family: "Roboto";
+  src: url("/fonts/Roboto-Medium.ttf") format("truetype");
   font-weight: 500;
   font-style: normal;
 }
 
 body {
   color: var(--text-color);
-  font-family: 'Noto Sans KR', sans-serif;
+  font-family: "Noto Sans KR", sans-serif;
 }
 
 table {
   border-collapse: collapse;
-  width: 100%; 
+  width: 100%;
 }
 
 th {
@@ -117,7 +117,7 @@ th {
   color: white;
   text-align: center !important;
   padding: 8px 0px 8px 0px;
-  
+
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
 }
@@ -146,7 +146,6 @@ td {
   cursor: not-allowed;
 }
 
-
 .btn-sub {
   background-color: var(--btn-sub-color);
   color: white;
@@ -174,18 +173,17 @@ td {
   color: #2980b9;
 }
 
-
 .btn-txt {
   font-style: italic;
   text-decoration: underline;
-	cursor: pointer;
-	color: #595959;
+  cursor: pointer;
+  color: #595959;
 
-	font-size: 0.9rem;
+  font-size: 0.9rem;
 }
 
 .btn-txt:hover {
-	color: #AAAAAA;
+  color: #aaaaaa;
 }
 
 input {
@@ -193,13 +191,15 @@ input {
   height: 38%px;
   padding: 0.47rem 0.75rem;
   font-size: 0.9rem;
-  color: #3C4043;
+  color: #3c4043;
   background-color: #fff;
   background-clip: padding-box;
-  border: 1px solid #DADCE0;
+  border: 1px solid #dadce0;
   border-radius: 0.2rem;
-  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-  box-shadow: 0 1px 2px rgba(0,0,0,0.03);
+  transition:
+    border-color 0.15s ease-in-out,
+    box-shadow 0.15s ease-in-out;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
 
   &::placeholder {
     color: #adb5bd;
@@ -211,13 +211,13 @@ input {
     background-color: #fff;
     border-color: #86b7fe;
     outline: 0;
-    box-shadow: 0 0 0 0.2rem rgba(13,110,253,.25);
+    box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
   }
 }
 
 .custom-scrollbar {
-  scrollbar-width: thin;              /* Firefox */
-  scrollbar-color: #bbb white;      /* Firefox */
+  scrollbar-width: thin; /* Firefox */
+  scrollbar-color: #bbb white; /* Firefox */
   padding-top: 2px;
   padding-bottom: 12px;
 }

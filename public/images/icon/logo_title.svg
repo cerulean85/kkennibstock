@@ -5,9 +5,9 @@
       .cls-1 {
         fill: none;
         stroke: #fff;
-        stroke-linecap: round;
-        stroke-linejoin: round;
-        stroke-width: 3.39px;
+        strokeLinecap: round;
+        strokeLinejoin: round;
+        strokeWidth: 3.39px;
       }
     </style>
   </defs>

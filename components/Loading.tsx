@@ -1,9 +1,6 @@
 import Image from "next/image";
 
-export default function LoadingIcon({
-  width = 40, 
-  height = 40,
-}) {
+export default function LoadingIcon({ width = 40, height = 40 }) {
   return (
     <div className="flex justify-center items-center">
       <Image

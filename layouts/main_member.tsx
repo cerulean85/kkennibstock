@@ -1,19 +1,10 @@
-'use client';
-import { LocaleContext } from './LocaleContext';
+"use client";
+import { LocaleContext } from "./LocaleContext";
 
-export default function MemberSection({ 
-	locale, 
-	children
-}: { 
-	locale: string, 
-  children: React.ReactNode;
-}) {
-
+export default function MemberSection({ locale, children }: { locale: string; children: React.ReactNode }) {
   return (
-		<LocaleContext.Provider value={locale}>
-		<section>
-			{children}
-		</section>
-		</LocaleContext.Provider>
-	)
+    <LocaleContext.Provider value={locale}>
+      <section>{children}</section>
+    </LocaleContext.Provider>
+  );
 }

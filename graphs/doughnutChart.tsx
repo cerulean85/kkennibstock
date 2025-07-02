@@ -6,7 +6,7 @@ import ReactECharts from "echarts-for-react";
 const DoughnutChart = ({ value }: { value: number }) => {
   const options = {
     title: {
-      text: `${value}%`,  // 중앙 텍스트를 동적으로 변경
+      text: `${value}%`, // 중앙 텍스트를 동적으로 변경
       left: "50%",
       top: "50%",
       textAlign: "center",
