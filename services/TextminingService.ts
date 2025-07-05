@@ -36,6 +36,15 @@ export class TextminingService extends BaseService {
     return this.getData(response);
   }
 
+  async getDashboardData() {
+    let memNo = localStorage.getItem("no");
+    if (!memNo) return;
+    let projectId = localStorage.getItem("selectedProjectId");
+    if (!projectId) return;
+    const response: any = await this.repo.getDashboardData(Number(memNo), Number(projectId));
+    return this.getData(response);
+  }
+
   async getSearchList() {
     let memNo = localStorage.getItem("no");
     if (!memNo) return;

@@ -31,6 +31,14 @@ export enum Page {
 // Text Mining Constants
 export const ITEMS_PER_PAGE = 10;
 
+export enum PipeTaskStatus {
+  SEARCH = "SEARCH",
+  CLEAN = "CLEAN",
+  FREQUENCY = "FREQUENCY",
+  TFIDF = "TFIDF",
+  CONCOR = "CONCOR",
+}
+
 export enum PipeTaskState {
   PREPARING = "preparing",
   PENDING = "pending",

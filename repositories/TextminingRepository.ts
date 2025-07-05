@@ -24,6 +24,11 @@ export class TextminingRepository {
     return res;
   }
 
+  async getDashboardData(memberId: number, projectId: number) {
+    const res: any = await fetchGet(`text-mining/dashboard?memId=${memberId}&projectId=${projectId}`);
+    return res;
+  }
+
   async getSearchList(memberId: number, projectId: number) {
     const res: any = await fetchGet(`text-mining/search-list?memId=${memberId}&projectId=${projectId}`);
     return res;
