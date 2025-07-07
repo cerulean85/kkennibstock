@@ -32,7 +32,7 @@ const LoginPage = () => {
       <Loading />
     </div>
   ) : (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-gray-50 relative z-10">
       <div className="h-[30px]">
         {currentSubPage && (
           <div
