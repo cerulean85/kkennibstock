@@ -46,13 +46,6 @@ export default function GoogleLogInButton({ onLoading }: GoogleLogInButtonProps)
     onError: () => console.log("Log in Failed"),
   });
 
-  // useEffect(() => {
-  //   if (!result) return;
-  //   dispatch(setAllPageLoading(true));
-  //   window.location.href = "/" + getLobbyPage();
-  //   alert("로그인에 성공했습니다.");
-  // }, [result]);
-
   return (
     <button
       onClick={() => login()}
