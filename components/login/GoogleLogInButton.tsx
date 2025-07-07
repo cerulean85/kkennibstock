@@ -6,7 +6,11 @@ import { UseDispatch } from "@/stores/store";
 import { useEffect, useState } from "react";
 import { Account, getLobbyPage } from "@/lib/contant";
 
-export default function GoogleLogInButton() {
+interface GoogleLogInButtonProps {
+  onLoading?: (loading: boolean) => void;
+}
+
+export default function GoogleLogInButton({ onLoading }: GoogleLogInButtonProps) {
   const dispatch = UseDispatch();
   const [result, setResult] = useState(false);
 
@@ -24,22 +28,30 @@ export default function GoogleLogInButton() {
       const profileImage = userInfo.picture; // 프로필 사진 URL
 
       if (!email) return;
+
+      onLoading?.(true);
       const serv = new MemberService();
       const isSuccess: boolean = await serv.logIn(email, "", Account.GOOGLE);
       setResult(isSuccess);
+      onLoading?.(false);
+
+      // alert(isSuccess ? "로그인에 성공했습니다." : "로그인에 실패했습니다.");
+      dispatch(setAllPageLoading(true));
+      window.location.href = "/" + getLobbyPage();
 
       // 프로필 사진 활용 예시
-      console.log("프로필 사진 URL:", profileImage);
+      // console.log("프로필 사진 URL:", profileImage);
       // setProfileImage(profileImage); // 필요시 상태로 저장
     },
     onError: () => console.log("Log in Failed"),
   });
 
-  useEffect(() => {
-    if (!result) return;
-    dispatch(setAllPageLoading(true));
-    window.location.href = "/" + getLobbyPage();
-  }, [result]);
+  // useEffect(() => {
+  //   if (!result) return;
+  //   dispatch(setAllPageLoading(true));
+  //   window.location.href = "/" + getLobbyPage();
+  //   alert("로그인에 성공했습니다.");
+  // }, [result]);
 
   return (
     <button

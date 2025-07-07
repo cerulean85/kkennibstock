@@ -12,7 +12,7 @@ import FindPasswordForm from "@/components/FindPasswordForm";
 import { Page } from "@/lib/contant";
 
 const LoginPage = () => {
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState<boolean>(false);
   const router = useRouter();
 
   enum SubPage {
@@ -63,7 +63,7 @@ const LoginPage = () => {
               <div>
                 <div className="mb-2">
                   <GoogleOAuthProvider clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID ?? ""}>
-                    <GoogleLogInButton></GoogleLogInButton>
+                    <GoogleLogInButton onLoading={setLoading}></GoogleLogInButton>
                   </GoogleOAuthProvider>
                 </div>
                 <div>
