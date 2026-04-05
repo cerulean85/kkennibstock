@@ -9,6 +9,7 @@ const repo: Repo = repoData;
 
 export async function fetchGet(pathAndQuery: string, dummyName: string = "") {
   const result = await _fetchGet(pathAndQuery, dummyName, process.env.NEXT_PUBLIC_API_BASE_URL ?? "");
+  console.log(result);
   return result;
 }
 
