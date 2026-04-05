@@ -306,15 +306,23 @@ export function parseDateString(dateStr: string): Date {
 // localStorage 안전 접근 유틸 (SSR 호환)
 export function safeGetLS(key: string): string | null {
   if (typeof window === "undefined") return null;
-  try { return window.localStorage.getItem(key); } catch { return null; }
+  try {
+    return window.localStorage.getItem(key);
+  } catch {
+    return null;
+  }
 }
 
 export function safeSetLS(key: string, value: string): void {
   if (typeof window === "undefined") return;
-  try { window.localStorage.setItem(key, value); } catch {}
+  try {
+    window.localStorage.setItem(key, value);
+  } catch {}
 }
 
 export function safeRemoveLS(key: string): void {
   if (typeof window === "undefined") return;
-  try { window.localStorage.removeItem(key); } catch {}
+  try {
+    window.localStorage.removeItem(key);
+  } catch {}
 }
