@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import { nameRegex } from "@/lib/contant";
+import { safeGetLS, safeSetLS } from "@/lib/utils";
 import { MemberService } from "@/services/MemberService";
 
 const ProfilePage = () => {
@@ -10,9 +11,9 @@ const ProfilePage = () => {
   const [email, setEmail] = useState("");
 
   useEffect(() => {
-    const _name = localStorage.getItem("name");
+    const _name = safeGetLS("name");
     if (_name) setName(_name);
-    const _email = localStorage.getItem("email");
+    const _email = safeGetLS("email");
     if (_email) setEmail(_email);
   }, []);
 
@@ -25,7 +26,7 @@ const ProfilePage = () => {
       alert("Please enter your name.");
       return;
     }
-    localStorage.setItem("name", name);
+    safeSetLS("name", name);
     const result = await new MemberService().updateName(email, name);
     if (result) {
       alert("Profile updated successfully!");

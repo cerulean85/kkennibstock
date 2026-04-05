@@ -1,5 +1,6 @@
 import { TextminingRepository } from "@/repositories/TextminingRepository";
 import { BaseService } from "./BaseService";
+import { safeGetLS } from "@/lib/utils";
 
 export class TextminingService extends BaseService {
   private repo: TextminingRepository;
@@ -7,6 +8,19 @@ export class TextminingService extends BaseService {
   constructor() {
     super();
     this.repo = new TextminingRepository();
+  }
+
+  private formatListDates(data: any) {
+    if (!data?.list) return data;
+    for (let i = 0; i < data.list.length; i++) {
+      const item = data.list[i];
+      item.createDate = item.createDate ? new Date(item.createDate).toLocaleString() : "";
+      item.startDate = item.startDate ? new Date(item.startDate).toLocaleString() : "";
+      item.endDate = item.endDate ? new Date(item.endDate).toLocaleString() : "";
+      item.searchStartDate = item.searchStartDate ? new Date(item.searchStartDate).toLocaleString() : "";
+      item.searchEndDate = item.searchEndDate ? new Date(item.searchEndDate).toLocaleString() : "";
+    }
+    return data;
   }
 
   async addNewWork(
@@ -17,10 +31,10 @@ export class TextminingService extends BaseService {
     selectedCleans: string[],
     selectedAnalyses: string[]
   ) {
-    let memNo = localStorage.getItem("no");
+    let memNo = safeGetLS("no");
     if (!memNo) return;
 
-    let projectId = localStorage.getItem("selectedProjectId");
+    let projectId = safeGetLS("selectedProjectId");
     if (!projectId) return;
 
     const response: any = await this.repo.addNewWork(
@@ -37,54 +51,36 @@ export class TextminingService extends BaseService {
   }
 
   async getDashboardData() {
-    let memNo = localStorage.getItem("no");
+    let memNo = safeGetLS("no");
     if (!memNo) return;
-    let projectId = localStorage.getItem("selectedProjectId");
+    let projectId = safeGetLS("selectedProjectId");
     if (!projectId) return;
     const response: any = await this.repo.getDashboardData(Number(memNo), Number(projectId));
     return this.getData(response);
   }
 
   async getSearchList() {
-    let memNo = localStorage.getItem("no");
+    let memNo = safeGetLS("no");
     if (!memNo) return;
 
-    let projectId = localStorage.getItem("selectedProjectId");
+    let projectId = safeGetLS("selectedProjectId");
     if (!projectId) return;
 
     const response: any = await this.repo.getSearchList(Number(memNo), Number(projectId));
-
     const data = this.getData(response);
-    for (let i = 0; i < data.list.length; i++) {
-      const item = data.list[i];
-      item.createDate = item.createDate ? new Date(item.createDate).toLocaleString() : "";
-      item.startDate = item.startDate ? new Date(item.startDate).toLocaleString() : "";
-      item.endDate = item.endDate ? new Date(item.endDate).toLocaleString() : "";
-      item.searchStartDate = item.searchStartDate ? new Date(item.searchStartDate).toLocaleString() : "";
-      item.searchEndDate = item.searchEndDate ? new Date(item.searchEndDate).toLocaleString() : "";
-    }
-    return data;
+    return this.formatListDates(data);
   }
 
   async getCleanList() {
-    let memNo = localStorage.getItem("no");
+    let memNo = safeGetLS("no");
     if (!memNo) return;
 
-    let projectId = localStorage.getItem("selectedProjectId");
+    let projectId = safeGetLS("selectedProjectId");
     if (!projectId) return;
 
     const response: any = await this.repo.getCleanList(Number(memNo), Number(projectId));
-
     const data = this.getData(response);
-    for (let i = 0; i < data.list.length; i++) {
-      const item = data.list[i];
-      item.createDate = item.createDate ? new Date(item.createDate).toLocaleString() : "";
-      item.startDate = item.startDate ? new Date(item.startDate).toLocaleString() : "";
-      item.endDate = item.endDate ? new Date(item.endDate).toLocaleString() : "";
-      item.searchStartDate = item.searchStartDate ? new Date(item.searchStartDate).toLocaleString() : "";
-      item.searchEndDate = item.searchEndDate ? new Date(item.searchEndDate).toLocaleString() : "";
-    }
-    return data;
+    return this.formatListDates(data);
   }
 
   async getCleanData(taskId: number, pageNo: number, size: number = 100) {
@@ -94,23 +90,15 @@ export class TextminingService extends BaseService {
   }
 
   async getFrequencyList() {
-    let memNo = localStorage.getItem("no");
+    let memNo = safeGetLS("no");
     if (!memNo) return;
 
-    let projectId = localStorage.getItem("selectedProjectId");
+    let projectId = safeGetLS("selectedProjectId");
     if (!projectId) return;
 
     const response: any = await this.repo.getFrequencyList(Number(memNo), Number(projectId));
     const data = this.getData(response);
-    for (let i = 0; i < data.list.length; i++) {
-      const item = data.list[i];
-      item.createDate = item.createDate ? new Date(item.createDate).toLocaleString() : "";
-      item.startDate = item.startDate ? new Date(item.startDate).toLocaleString() : "";
-      item.endDate = item.endDate ? new Date(item.endDate).toLocaleString() : "";
-      item.searchStartDate = item.searchStartDate ? new Date(item.searchStartDate).toLocaleString() : "";
-      item.searchEndDate = item.searchEndDate ? new Date(item.searchEndDate).toLocaleString() : "";
-    }
-    return data;
+    return this.formatListDates(data);
   }
 
   async getFrequencyData(taskId: number, pageNo: number, size: number = 100) {
@@ -120,23 +108,15 @@ export class TextminingService extends BaseService {
   }
 
   async getTfidfList() {
-    let memNo = localStorage.getItem("no");
+    let memNo = safeGetLS("no");
     if (!memNo) return;
 
-    let projectId = localStorage.getItem("selectedProjectId");
+    let projectId = safeGetLS("selectedProjectId");
     if (!projectId) return;
 
     const response: any = await this.repo.getTfidfList(Number(memNo), Number(projectId));
     const data = this.getData(response);
-    for (let i = 0; i < data.list.length; i++) {
-      const item = data.list[i];
-      item.createDate = item.createDate ? new Date(item.createDate).toLocaleString() : "";
-      item.startDate = item.startDate ? new Date(item.startDate).toLocaleString() : "";
-      item.endDate = item.endDate ? new Date(item.endDate).toLocaleString() : "";
-      item.searchStartDate = item.searchStartDate ? new Date(item.searchStartDate).toLocaleString() : "";
-      item.searchEndDate = item.searchEndDate ? new Date(item.searchEndDate).toLocaleString() : "";
-    }
-    return data;
+    return this.formatListDates(data);
   }
 
   async getTfidfData(taskId: number, pageNo: number, size: number = 100) {
@@ -146,23 +126,15 @@ export class TextminingService extends BaseService {
   }
 
   async getConcorList() {
-    let memNo = localStorage.getItem("no");
+    let memNo = safeGetLS("no");
     if (!memNo) return;
 
-    let projectId = localStorage.getItem("selectedProjectId");
+    let projectId = safeGetLS("selectedProjectId");
     if (!projectId) return;
 
     const response: any = await this.repo.getConcorList(Number(memNo), Number(projectId));
     const data = this.getData(response);
-    for (let i = 0; i < data.list.length; i++) {
-      const item = data.list[i];
-      item.createDate = item.createDate ? new Date(item.createDate).toLocaleString() : "";
-      item.startDate = item.startDate ? new Date(item.startDate).toLocaleString() : "";
-      item.endDate = item.endDate ? new Date(item.endDate).toLocaleString() : "";
-      item.searchStartDate = item.searchStartDate ? new Date(item.searchStartDate).toLocaleString() : "";
-      item.searchEndDate = item.searchEndDate ? new Date(item.searchEndDate).toLocaleString() : "";
-    }
-    return data;
+    return this.formatListDates(data);
   }
   async deleteSearchList(taskIdList: number[]) {
     const response: any = await this.repo.deleteSearchList(taskIdList);

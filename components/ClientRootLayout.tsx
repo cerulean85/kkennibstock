@@ -7,6 +7,7 @@ import { RootState, UseDispatch, UseSelector } from "@/stores/store";
 import Loading from "@/components/Loading";
 import { setCurrentMenu, setCurrentPage } from "@/stores/appConfigSlice";
 import { getLobbyPage, Menu, Page } from "@/lib/contant";
+import { safeGetLS, safeSetLS } from "@/lib/utils";
 import IconButton from "@/components/button/IconButton";
 import ProfileComponent from "./ProfileComponent";
 import HelpPopup from "./popup/HelpPopup";
@@ -144,7 +145,7 @@ export default function ClientRootLayout({ children }: { children: React.ReactNo
       .then((projects: ProjectResponse) => {
         setProjectList(projects.list);
         if (projects.list && projects.list.length > 0) {
-          const selectedProjectId = localStorage.getItem("selectedProjectId");
+          const selectedProjectId = safeGetLS("selectedProjectId");
           if (!selectedProjectId) {
             setCurrentProject(projects.list[0]);
           } else {
@@ -230,14 +231,14 @@ export default function ClientRootLayout({ children }: { children: React.ReactNo
 
     // 최초 진입 시
     const newProjectId: number = currentProject.id;
-    const oldProjectId = localStorage.getItem("selectedProjectId");
+    const oldProjectId = safeGetLS("selectedProjectId");
     if (!oldProjectId) {
-      localStorage.setItem("selectedProjectId", String(newProjectId));
+      safeSetLS("selectedProjectId", String(newProjectId));
       return;
     }
 
     if (oldProjectId && newProjectId !== Number(oldProjectId)) {
-      localStorage.setItem("selectedProjectId", String(newProjectId));
+      safeSetLS("selectedProjectId", String(newProjectId));
       window.location.href = "/" + getLobbyPage();
     }
   }, [currentProject]);

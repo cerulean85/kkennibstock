@@ -1,4 +1,5 @@
 import { Page } from "@/lib/contant";
+import { safeGetLS } from "@/lib/utils";
 import { MemberService } from "@/services/MemberService";
 import React, { useState, useRef, useEffect } from "react";
 
@@ -23,15 +24,15 @@ const ProfileComponent: React.FC = () => {
   }, [open]);
 
   useEffect(() => {
-    const _email = localStorage.getItem("email");
+    const _email = safeGetLS("email");
     if (!_email) return;
     setEmail(_email);
 
-    const _name = localStorage.getItem("name");
+    const _name = safeGetLS("name");
     if (!_name) return;
     setName(_name);
 
-    const _picture = localStorage.getItem("picture");
+    const _picture = safeGetLS("picture");
     if (!_picture) return;
     setPicture(_picture);
   }, []);

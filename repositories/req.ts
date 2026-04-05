@@ -1,4 +1,5 @@
 import repoData from "./repo.json";
+import { safeGetLS, safeSetLS } from "@/lib/utils";
 
 interface Repo {
   dummy?: Record<string, any>;
@@ -117,7 +118,7 @@ export async function fetchPostWithAuth(path: string, data: any = {}) {
     });
   }
 
-  const accessToken = localStorage.getItem("accessToken");
+  const accessToken = safeGetLS("accessToken");
   const url = `${process.env.NEXT_PUBLIC_API_BASE_URL ?? ""}/${path}`;
   let res = await _fetchWithAuth();
 
@@ -128,7 +129,7 @@ export async function fetchPostWithAuth(path: string, data: any = {}) {
       credentials: "include",
     });
     const tokens = await refreshRes.json();
-    localStorage.setItem("accessToken", tokens.accessToken);
+    safeSetLS("accessToken", tokens.accessToken);
     res = await _fetchWithAuth();
   }
 
@@ -153,7 +154,7 @@ export async function fetchPostWithCookie(path: string, credential: string) {
     return false;
   }
 
-  localStorage.setItem("accessToken", result.accessToken);
+  safeSetLS("accessToken", result.accessToken);
   return true;
 }
 

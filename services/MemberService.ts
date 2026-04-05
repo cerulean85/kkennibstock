@@ -1,5 +1,6 @@
 import { MemberRepository } from "@/repositories/MemberRepository";
 import { BaseService } from "./BaseService";
+import { safeSetLS, safeRemoveLS } from "@/lib/utils";
 
 export class MemberService extends BaseService {
   private repo: MemberRepository;
@@ -23,13 +24,13 @@ export class MemberService extends BaseService {
       alert("Login failed.");
       return false;
     }
-    localStorage.setItem("accessToken", resut.accessToken);
-    localStorage.setItem("refreshToken", resut.refreshToken);
-    localStorage.setItem("email", resut.email);
-    localStorage.setItem("accountType", resut.accountType);
-    localStorage.setItem("name", resut.name);
-    localStorage.setItem("picture", resut.picture);
-    localStorage.setItem("no", resut.no);
+    safeSetLS("accessToken", resut.accessToken);
+    safeSetLS("refreshToken", resut.refreshToken);
+    safeSetLS("email", resut.email);
+    safeSetLS("accountType", resut.accountType);
+    safeSetLS("name", resut.name);
+    safeSetLS("picture", resut.picture);
+    safeSetLS("no", resut.no);
 
     return true;
   }
@@ -40,13 +41,13 @@ export class MemberService extends BaseService {
   }
 
   async logOut() {
-    localStorage.removeItem("accessToken");
-    localStorage.removeItem("refreshToken");
-    localStorage.removeItem("email");
-    localStorage.removeItem("accountType");
-    localStorage.removeItem("name");
-    localStorage.removeItem("picture");
-    localStorage.removeItem("no");
+    safeRemoveLS("accessToken");
+    safeRemoveLS("refreshToken");
+    safeRemoveLS("email");
+    safeRemoveLS("accountType");
+    safeRemoveLS("name");
+    safeRemoveLS("picture");
+    safeRemoveLS("no");
     return true;
   }
 

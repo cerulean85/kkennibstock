@@ -2,7 +2,7 @@
 import { useEffect } from "react";
 import { jwtDecode } from "jwt-decode";
 import axios from "axios";
-import { validateToken } from "@/lib/utils";
+import { validateToken, safeGetLS, safeSetLS } from "@/lib/utils";
 import { useRouter, usePathname } from "next/navigation";
 import { noAuthEndpoints, getEndpointFromURL } from "@/lib/domain";
 import { getLobbyPage, Page } from "@/lib/contant";
@@ -20,7 +20,7 @@ function scheduleTokenRefresh(accessToken: string, refreshToken: string, redirec
         try {
           const response = await axios.post("users/refresh", { refreshToken });
           const newAccessToken = response.data.accessToken;
-          localStorage.setItem("accessToken", newAccessToken);
+          safeSetLS("accessToken", newAccessToken);
           scheduleTokenRefresh(newAccessToken, refreshToken, redirectPath);
         } catch (error) {
           console.error("Token refresh failed:", error);
@@ -39,8 +39,8 @@ export default function TokenManager() {
   const pathname = usePathname();
 
   useEffect(() => {
-    const accessToken = localStorage.getItem("accessToken");
-    const refreshToken = localStorage.getItem("refreshToken");
+    const accessToken = safeGetLS("accessToken");
+    const refreshToken = safeGetLS("refreshToken");
     // If on a no-auth page and already logged in, redirect to lobby
     if (pathname) {
       const pageName = getEndpointFromURL(pathname);
