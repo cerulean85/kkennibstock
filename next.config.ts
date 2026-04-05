@@ -12,7 +12,7 @@ const nextConfig: NextConfig = {
   // 헤더 크기 제한 증가
   experimental: {
     serverActions: {
-      bodySizeLimit: '10mb',
+      bodySizeLimit: "10mb",
     },
   },
 
@@ -34,7 +34,7 @@ const nextConfig: NextConfig = {
           bundler: "webpack",
           hotKeys: ["altKey"],
           // VS Code 직접 경로 지정 (사용자명을 실제 이름으로 변경하세요)
-          editor: 'code'
+          editor: "code",
         })
       );
     }
@@ -45,11 +45,15 @@ const nextConfig: NextConfig = {
   async headers() {
     return [
       {
-        source: '/(.*)',
+        source: "/(.*)",
         headers: [
           {
-            key: 'Cache-Control',
-            value: 'no-store, max-age=0',
+            key: "Cache-Control",
+            value: "no-store, max-age=0",
+          },
+          {
+            key: "Cross-Origin-Opener-Policy",
+            value: "same-origin-allow-popups",
           },
         ],
       },
