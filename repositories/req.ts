@@ -28,6 +28,7 @@ async function _fetchGet(pathAndQuery: string, dummyName: string = "", domain: s
   try {
     const url = `${domain}/${pathAndQuery}`;
     const response = await fetch(url);
+    console.log("API 응답222:", response);
 
     if (response.ok) {
       const result = await response.json();
