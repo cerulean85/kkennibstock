@@ -165,6 +165,7 @@ export default BaseResultPopup;
 
 // 공통 유틸리티 함수들을 export
 export const formatDate = (dateString: string) => {
+  return dateString;
   const date = new Date(dateString);
   return date.toLocaleDateString("ko-KR", {
     year: "numeric",
